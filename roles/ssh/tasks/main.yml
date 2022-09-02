@@ -1,0 +1,9 @@
+---
+- name: Generate an OpenSSH keypair
+  community.crypto.openssh_keypair:
+    path: /home/{{ ansible_user }}/.ssh/id_rsa
+
+- name: Fetch the controller SSH key 
+  ansible.builtin.fetch:
+    src: /home/{{ ansible_user }}/.ssh/id_rsa.pub
+    dest: "{{ playbook_dir }}/generated_files/controller_id_rsa"

@@ -1,0 +1,9 @@
+manifest.zip
+setup_info.yml
+debug.yml
+extra_vars.yml
+aap.tar.gz
+.DS_Store
+ansible.cfg
+aap/*
+generated_files/*

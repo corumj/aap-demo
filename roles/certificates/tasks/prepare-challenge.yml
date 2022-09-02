@@ -1,0 +1,93 @@
+---
+- name: Generate acme account key 
+  openssl_privatekey:
+    path: "{{ acme_account_key_path }}"
+
+- name: Generate certifcate private key 
+  openssl_privatekey:
+    path: "{{ acme_private_key_path }}"
+    size: 2048 
+
+- name: Create a CSR for Controller
+  openssl_csr:
+    path: "{{ controller_csr_path }}"
+    privatekey_path: "{{ acme_private_key_path }}"
+    common_name: "{{ controller_dns }}"
+
+- name: Create a CSR for SSO
+  openssl_csr:
+    path: "{{ sso_csr_path }}"
+    privatekey_path: "{{ acme_private_key_path }}"
+    common_name: "{{ sso_dns }}"
+
+- name: Create a CSR for Catalog 
+  openssl_csr:
+    path: "{{ catalog_csr_path }}"
+    privatekey_path: "{{ acme_private_key_path }}"
+    common_name: "{{ catalog_dns }}"
+
+- name: Create DNS Challenge for Controller
+  acme_certificate:
+    account_key_src: "{{ acme_account_key_path }}"
+    account_email: "{{ cert_email }}"
+    csr: "{{ controller_csr_path }}"
+    dest: "{{ playbook_dir }}/generated_files/controller"
+    challenge: dns-01 
+    acme_directory: "{{ acme_directory_server }}"
+    acme_version: 2 
+    terms_agreed: yes 
+    remaining_days: 10 
+    force: "{{ certificate_force }}"
+  register: controller_dns_challenge 
+
+- name: Create DNS Challenge for SSO
+  acme_certificate:
+    account_key_src: "{{ acme_account_key_path }}"
+    account_email: "{{ cert_email }}"
+    csr: "{{ sso_csr_path }}"
+    dest: "{{ playbook_dir }}/generated_files/sso"
+    challenge: dns-01 
+    acme_directory: "{{ acme_directory_server }}"
+    acme_version: 2 
+    terms_agreed: yes 
+    remaining_days: 10 
+    force: "{{ certificate_force }}"
+  register: sso_dns_challenge 
+
+- name: Create DNS Challenge for Catalog
+  acme_certificate:
+    account_key_src: "{{ acme_account_key_path }}"
+    account_email: "{{ cert_email }}"
+    csr: "{{ catalog_csr_path }}"
+    dest: "{{ playbook_dir }}/generated_files/catalog"
+    challenge: dns-01 
+    acme_directory: "{{ acme_directory_server }}"
+    acme_version: 2 
+    terms_agreed: yes 
+    remaining_days: 10 
+    force: "{{ certificate_force }}"
+  register: catalog_dns_challenge 
+
+- name: set Controller challenge_record facts
+  set_fact:
+    controller_challenge_record: "{{ controller_dns_challenge.challenge_data[controller_dns]['dns-01'].record }}"
+    controller_challenge_value: "{{ controller_dns_challenge.challenge_data[controller_dns]['dns-01'].resource_value | regex_replace('^(.*)$', '\"\\1\"') }}"
+  when: 
+    - controller_dns_challenge is changed 
+    - controller_dns_challenge.challenge_data[controller_dns] is defined
+
+- name: set SSO challenge_record facts
+  set_fact:
+    sso_challenge_record: "{{ sso_dns_challenge.challenge_data[sso_dns]['dns-01'].record }}"
+    sso_challenge_value: "{{ sso_dns_challenge.challenge_data[sso_dns]['dns-01'].resource_value | regex_replace('^(.*)$', '\"\\1\"') }}"
+  when: 
+    - sso_dns_challenge is changed 
+    - sso_dns_challenge.challenge_data[sso_dns] is defined
+
+- name: set Catalog challenge_record facts
+  set_fact:
+    catalog_challenge_record: "{{ catalog_dns_challenge.challenge_data[catalog_dns]['dns-01'].record }}"
+    catalog_challenge_value: "{{ catalog_dns_challenge.challenge_data[catalog_dns]['dns-01'].resource_value | regex_replace('^(.*)$', '\"\\1\"') }}"
+  when: 
+    - catalog_dns_challenge is changed 
+    - catalog_dns_challenge.challenge_data[catalog_dns] is defined

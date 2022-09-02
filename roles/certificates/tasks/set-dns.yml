@@ -1,0 +1,36 @@
+---
+- name: Setup Route 53 for controller domain name 
+  community.aws.route53:
+    profile: "{{ aws_profile }}"
+    state: present 
+    zone: "{{ top_level_domain }}"
+    record: "{{ controller_dns }}"
+    type: A
+    value: "{{ hostvars[groups['demo_controller'][0]]['public_ip_address'] }}"
+    ttl: 300
+    wait: yes
+    overwrite: yes
+
+- name: Setup Route 53 for sso domain name 
+  community.aws.route53:
+    profile: "{{ aws_profile }}"
+    state: present 
+    zone: "{{ top_level_domain }}"
+    record: "{{ sso_dns }}"
+    type: A
+    value: "{{ hostvars[groups['demo_sso'][0]]['public_ip_address'] }}"
+    ttl: 300
+    wait: yes
+    overwrite: yes
+
+- name: Setup Route 53 for catalog domain name 
+  community.aws.route53:
+    profile: "{{ aws_profile }}"
+    state: present 
+    zone: "{{ top_level_domain }}"
+    record: "{{ catalog_dns }}"
+    type: A
+    value: "{{ hostvars[groups['demo_catalog'][0]]['public_ip_address'] }}"
+    ttl: 300
+    wait: yes
+    overwrite: yes

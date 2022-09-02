@@ -1,0 +1,12 @@
+---
+collections:
+# Galaxy Collections
+  - name: community.crypto 
+    version: 2.5.0 
+  - name: community.general 
+    version: 5.5.0 
+  - name: community.aws 
+    version: 3.5.0 
+# Automation Hub Collections 
+  - name: ansible.posix 
+    version: 1.4.0

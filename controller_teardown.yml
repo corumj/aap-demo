@@ -1,0 +1,31 @@
+---
+- name: Deregister servers from RHSM 
+  hosts: aws_ec2
+  gather_facts: no 
+  become: yes
+
+  tasks:
+
+    - name: Deregister AAP servers from RHSM 
+      include_role:
+        name: rhsm 
+        tasks_from: unregister.yml
+
+- name: Teardown Controller infrastructure 
+  hosts: localhost
+  connection: local 
+  gather_facts: no
+
+  tasks:
+
+  - name: Deprovision Demo EC2 Instances
+    community.aws.ec2_instance:
+      profile: "{{ aws_profile | default('') }}"
+      state: absent
+      filters:
+        "tag:demo": Ansible 
+        instance-state-name: running 
+      wait: yes
+      region: "{{ aws_region }}"
+      aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+      aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
