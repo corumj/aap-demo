@@ -22,6 +22,11 @@
     image_id: "{{ node_ami_rhel.image_id }}"
     instance_type: "{{ aws_instance_type }}"
     key_name: "ansible-demo-key"
+    volumes:
+      - device_name: /dev/sda1 
+        ebs:
+          volume_size: 20 
+          delete_on_termination: true 
     tags: 
       group_name: "{{ item.group }}"
       short_desc: "{{ item.short_desc }}"
