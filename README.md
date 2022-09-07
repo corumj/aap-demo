@@ -80,5 +80,6 @@ It is vitally important that you pay attention and shut these instances down, th
 So long as you keep the `generated_files` directory and have the same `top_level_domain` you can teardown and spin up as many times as you want until your AWS OpenEnvironment expires or you remove it from RHPDS.  I commonly teardown every night, starting up if I need the environment (I think it takes around an hour, but I've honestly never timed it).
 
 ## Todo 
-1. Test if Shutting off instances and restarting them works with SSO and Catalog in the mix, this is because it's a lot faster to shut down and restart then reprovision and reinstall.
-2. ??
+1. Add option to include demo playbooks using redhat_cop.controller_configuration
+2. Test if Shutting off instances and restarting them works with SSO and Catalog in the mix, this is because it's a lot faster to shut down and restart then reprovision and reinstall.
+3. Test if teardown playbook works if you've provisioned other crap in the environment 
