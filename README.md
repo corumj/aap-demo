@@ -72,3 +72,13 @@ This repo of playbooks is designed to help Red Hatters easily deploy an AAP 2.x 
 6. Download the AAP Installer, name it `aap.tar.gz` and save it in this repo 
 7. Create a Manifest to license AAP and name it `manifest.zip`, place it in this repo
 
+## To Use
+It is vitally important that you pay attention and shut these instances down, they're quite large and thus somewhat expensive.  
+1. To start setup, after the above is complete run `ansible-playbook -i aws_ec2.yml -e @extra_vars.yml controller_setup.yml` 
+2. To teardown the environment, run `ansible-playbook -i aws_ec2.yml -e @extra_vars.yml controller_teardown.yml`
+
+So long as you keep the `generated_files` directory and have the same `top_level_domain` you can teardown and spin up as many times as you want until your AWS OpenEnvironment expires or you remove it from RHPDS.  I commonly teardown every night.
+
+## Todo 
+1. Test if Shutting off instances and restarting them works with SSO and Catalog in the mix, this is because it's a lot faster to shut down and restart then reprovision and reinstall.
+2. ??
