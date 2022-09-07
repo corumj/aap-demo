@@ -175,3 +175,10 @@
         body_format: json
         validate_certs: false
         force_basic_auth: true
+
+    - name: Access Apps 
+      debug:
+        msg: 
+          - "Automation Controller: https://{{ controller_dns }}"
+          - "Automation Services Catalog: https://{{ catalog_dns }}"
+          - "SSO: https://{{ sso_dns }}:8443"

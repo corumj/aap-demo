@@ -1,0 +1,7 @@
+---
+controller_organizations:
+  - name: Default
+    galaxy_credentials:
+      - Ansible Automation Hub
+      - Ansible Galaxy
+...

@@ -74,10 +74,12 @@ This repo of playbooks is designed to help Red Hatters easily deploy an AAP 2.x 
 
 ## To Use
 It is vitally important that you pay attention and shut these instances down, they're quite large and thus somewhat expensive.  
-1. To start setup, after the above is complete run `ansible-playbook -i aws_ec2.yml -e @extra_vars.yml controller_setup.yml` 
-2. To teardown the environment, run `ansible-playbook -i aws_ec2.yml -e @extra_vars.yml controller_teardown.yml`
+1. Run `ansible-galaxy collection install -r collections/requirements.yml` to install the collection dependencies needed to setup this environment.
+2. To start setup, after the above is complete run `ansible-playbook -i aws_ec2.yml -e @extra_vars.yml controller_setup.yml` 
+3. To teardown the environment, run `ansible-playbook -i aws_ec2.yml -e @extra_vars.yml controller_teardown.yml`
 
-So long as you keep the `generated_files` directory and have the same `top_level_domain` you can teardown and spin up as many times as you want until your AWS OpenEnvironment expires or you remove it from RHPDS.  I commonly teardown every night, starting up if I need the environment (I think it takes around an hour, but I've honestly never timed it).
+So long as you keep the `generated_files` directory and have the same `top_level_domain` you can teardown and spin up as many times as you want until your AWS OpenEnvironment expires or you remove it from RHPDS.  I commonly teardown every night, starting up if I need the environment (I think it takes around an hour, but I've honestly never timed it). 
+>> Note: I'd recommend cleaning out the generated_files folder every once in a while, it will save certificates for past environments.  You can keep the acme_cert, which helps identify you to Let's Encrypt, but that's optional too.  
 
 ## Todo 
 1. Add option to include demo playbooks using redhat_cop.controller_configuration

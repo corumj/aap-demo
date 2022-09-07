@@ -1,0 +1,8 @@
+---
+controller_teams:
+  - name: networking
+    organization: Default
+  - name: infrastructure
+    organization: Default
+  - name: applications
+    organization: Default

@@ -1,0 +1,23 @@
+---
+controller_inventory_sources:
+  - name: AWS EC2
+    source: ec2
+    source_vars:
+      filters:
+        tag:demo: Ansible 
+      keyed_groups:
+        - key: tags['group_name']
+          prefix: demo 
+          parent_group: "demo"
+        - key: tags['server_os']
+          prefix: demo
+          parent_group: os
+      compose:
+        ansible_host: public_ip_address
+    inventory: AWS
+    organization: Default
+    credential: AWS
+    overwrite: true
+    update_on_launch: true
+    update_cache_timeout: 0
+    wait: true

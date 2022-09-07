@@ -1,0 +1,11 @@
+---
+controller_user_accounts:
+  - user: infrastructure
+    is_superuser: false 
+    password: "{{ admin_password }}"
+  - user: applications
+    is_superuser: false 
+    password: "{{ admin_password }}"
+  - user: networking 
+    is_superuser: false 
+    password: "{{ admin_password }}"

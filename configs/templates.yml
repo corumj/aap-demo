@@ -1,0 +1,184 @@
+controller_templates:
+  - name: "1. Provision" 
+    description: Use to provision Windows or Linux servers
+    job_type: run
+    inventory: AWS
+    credentials: 
+      - "AWS"
+      - "AWS Windows"
+      - "Ansible Controller"
+    project: Demo Environment Tools
+    playbook: provision.yml
+    allow_simultaneous: yes
+    extra_vars:
+      top_level_domain: "{{ top_level_domain }}"
+    ask_variables_on_launch: yes
+    survey_enabled: yes 
+    survey_spec: 
+      name: ''
+      description: ''
+      spec:
+        - question_name: Enter the Controller inventory group name for this server.
+          question_description:  Provide an inventory group name for the instance.
+          required: true 
+          type: text
+          variable: survey_group_name
+          min: 3
+          max: 15
+          default: ""
+          choices: "" 
+        - question_name: Enter a short server name (no spaces or special characters).
+          question_description:  Provide a server name for the instance.
+          required: true 
+          type: text
+          variable: survey_server_name
+          min: 3
+          max: 15
+          default: ""
+          choices: "" 
+        - question_name: Select an environment (subnet).
+          question_description:  Choose between test and dev subnets to deploy server.
+          required: true 
+          type: multiplechoice
+          variable: survey_server_env
+          min: null
+          max: null
+          default: "dev"
+          choices: "dev\ntest" 
+        - question_name: Select an approved server operating system.
+          question_description:  Choose between Windows Server 2019 Core and RHEL 8.x
+          required: true 
+          type: multiplechoice
+          variable: survey_server_os
+          min: null
+          max: null
+          default: "windows"
+          choices: "windows\nlinux" 
+
+  - name: "SNOW - 1. Setup Controller and ServiceNow for closed loop demo" 
+    description: Use to show closed loop Windows Compliance demo
+    job_type: run
+    inventory: AWS
+    credentials: 
+      - "AWS"
+      - "Ansible Controller"
+    project: ServiceNow Tasks
+    playbook: initialize.yml
+    extra_vars:
+      top_level_domain: "{{ top_level_domain }}"
+    survey_enabled: yes 
+    survey_spec: 
+      name: ''
+      description: ''
+      spec:
+        - question_name: "Enter your ServiceNow Developer Instance Name (ex: dev100496)"
+          question_description:  Provide the SNOW developer instance ID
+          required: true 
+          type: text
+          variable: survey_snow_instance
+          min: 3
+          max: 15
+          default: ""
+          choices: "" 
+        - question_name: "Enter your ServiceNow dev instance username"
+          question_description:  Provide the SNOW developer username
+          required: true 
+          type: text
+          variable: survey_snow_username
+          min: 3
+          max: 30
+          default: "admin"
+          choices: "" 
+        - question_name: "Enter your ServiceNow dev instance password"
+          question_description:  Provide the SNOW developer password
+          required: true 
+          type: password
+          variable: survey_snow_password
+          min: null
+          max: null
+          default: ""
+          choices: "" 
+
+  - name: "[ Linux ] RHEL System Role crypto policy" 
+    description: Use RHEL System Role to set crypto policy
+    job_type: run
+    project: Linux Tasks
+    organization: Default
+    inventory: AWS
+    credentials: 
+      - "AWS Linux"
+    playbook: crypto.yml
+    ask_limit_on_launch: yes
+    use_fact_cache: yes
+
+  - name: "[ Linux ] RHEL System Role timesync"
+    description: Use RHEL System Role to set up NTP Client
+    job_type: run
+    project: Linux Tasks
+    organization: Default
+    inventory: AWS
+    credentials: 
+      - "AWS Linux"
+    playbook: timesync.yml
+    ask_limit_on_launch: yes
+    use_fact_cache: yes
+    
+  - name: "[ Linux ] Galaxy Role: Setup Postgresql"
+    description: Use Galaxy Role to set up Postgresql
+    job_type: run
+    project: Linux Tasks
+    organization: Default
+    inventory: AWS
+    credentials: 
+      - "AWS Linux"
+    playbook: setup_postgres.yml
+    ask_limit_on_launch: yes
+    use_fact_cache: yes
+
+  - name: "[ Linux ] Deploy GoAddr API"
+    description: Deploy GoAddr API
+    job_type: run
+    project: Linux Tasks
+    organization: Default
+    inventory: AWS
+    credentials: 
+      - "AWS Linux"
+    playbook: deploy_goaddr_api.yml
+    ask_limit_on_launch: yes
+    use_fact_cache: yes
+
+  - name: "[ Windows ] Configure DNS client"
+    description: Configure DNS Client
+    job_type: run
+    project: Windows Tasks 
+    organization: Default
+    inventory: AWS
+    credentials: 
+      - "AWS Windows"
+    playbook: dns_client.yml
+    ask_limit_on_launch: yes
+    use_fact_cache: yes
+
+  - name: "[ Windows ] Configure IIS"
+    description: Configure IIS
+    job_type: run
+    project: Windows Tasks 
+    organization: Default
+    inventory: AWS
+    credentials: 
+      - "AWS Windows"
+    playbook: iis_basic.yml
+    ask_limit_on_launch: yes
+    use_fact_cache: yes
+
+  - name: "[ Windows ] Deploy GoAddr Frontend"
+    description: GoAddr Frontend
+    job_type: run
+    project: Windows Tasks 
+    organization: Default
+    inventory: AWS
+    credentials: 
+      - "AWS Windows"
+    playbook: deploy_demo_front_end.yml
+    ask_limit_on_launch: yes
+    use_fact_cache: yes
