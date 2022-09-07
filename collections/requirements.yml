@@ -7,6 +7,10 @@ collections:
     version: 5.5.0 
   - name: community.aws 
     version: 3.5.0 
+  - name: redhat_cop.controller_configuration
+    version: 2.1.7
 # Automation Hub Collections 
   - name: ansible.posix 
     version: 1.4.0
+  - name: ansible.controller 
+    version: 2.1.7
