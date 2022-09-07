@@ -2,3 +2,7 @@
 controller_dns: controller.{{ top_level_domain }}
 sso_dns: sso.{{ top_level_domain }}
 catalog_dns: catalog.{{ top_level_domain }}
+
+acme_env: 
+  staging: https://acme-staging-v02.api.letsencrypt.org/directory
+  prod: https://acme-v02.api.letsencrypt.org/directory

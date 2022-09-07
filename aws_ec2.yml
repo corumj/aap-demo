@@ -7,6 +7,9 @@ regions:
 filters:
   tag:demo: Ansible
 
+hostnames:
+  - dns-name
+  
 keyed_groups:
   - key: 'tags.group_name'
     prefix: "demo"

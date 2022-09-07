@@ -7,7 +7,7 @@
     dest: "{{ playbook_dir }}/generated_files/controller"
     fullchain_dest: "{{ playbook_dir }}/generated_files/controller.{{ top_level_domain}}_chain"
     challenge: dns-01 
-    acme_directory: "{{ acme_directory_server }}"
+    acme_directory: "{{ acme_env[certificate_env] }}"
     acme_version: 2 
     terms_agreed: yes 
     remaining_days: 10 
@@ -26,7 +26,7 @@
     dest: "{{ playbook_dir }}/generated_files/sso"
     fullchain_dest: "{{ playbook_dir }}/generated_files/sso.{{ top_level_domain}}_chain"
     challenge: dns-01 
-    acme_directory: "{{ acme_directory_server }}"
+    acme_directory: "{{ acme_env[certificate_env] }}"
     acme_version: 2 
     terms_agreed: yes 
     remaining_days: 10 
@@ -45,7 +45,7 @@
     dest: "{{ playbook_dir }}/generated_files/catalog"
     fullchain_dest: "{{ playbook_dir }}/generated_files/catalog.{{ top_level_domain}}_chain"
     challenge: dns-01 
-    acme_directory: "{{ acme_directory_server }}"
+    acme_directory: "{{ acme_env[certificate_env] }}"
     acme_version: 2 
     terms_agreed: yes 
     remaining_days: 10 

@@ -33,7 +33,7 @@
     csr: "{{ controller_csr_path }}"
     dest: "{{ playbook_dir }}/generated_files/controller"
     challenge: dns-01 
-    acme_directory: "{{ acme_directory_server }}"
+    acme_directory: "{{ acme_env[certificate_env] }}"
     acme_version: 2 
     terms_agreed: yes 
     remaining_days: 10 
@@ -47,7 +47,7 @@
     csr: "{{ sso_csr_path }}"
     dest: "{{ playbook_dir }}/generated_files/sso"
     challenge: dns-01 
-    acme_directory: "{{ acme_directory_server }}"
+    acme_directory: "{{ acme_env[certificate_env] }}"
     acme_version: 2 
     terms_agreed: yes 
     remaining_days: 10 
@@ -61,7 +61,7 @@
     csr: "{{ catalog_csr_path }}"
     dest: "{{ playbook_dir }}/generated_files/catalog"
     challenge: dns-01 
-    acme_directory: "{{ acme_directory_server }}"
+    acme_directory: "{{ acme_env[certificate_env] }}"
     acme_version: 2 
     terms_agreed: yes 
     remaining_days: 10 
