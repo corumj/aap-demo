@@ -1,7 +1,0 @@
----
-- name: test playbook discard 
-  hosts: localhost 
-  connection: local 
-  tasks:
-    - debug:
-        msg: "{{ acme_env[certificate_env] }}"
