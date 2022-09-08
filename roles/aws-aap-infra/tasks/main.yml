@@ -20,7 +20,7 @@
     security_group: "{{ sec_info.security_groups[0].group_name }}"
     vpc_subnet_id: "{{ vpc_subnet_info.subnets[0].subnet_id }}"
     image_id: "{{ node_ami_rhel.image_id }}"
-    instance_type: "{{ aws_instance_type }}"
+    instance_type: "{{ item.instance_type | default(aws_instance_type) }}"
     key_name: "ansible-demo-key"
     volumes:
       - device_name: /dev/sda1 
@@ -43,9 +43,11 @@
   poll: 0
   loop:
     - { name: "test-controller-linux", group: "controller", short_desc: "controller" }
-    - { name: "test-execution1-linux", group: "execution", short_desc: "execution1" }
-    - { name: "test-catalog-linux", group: "catalog", short_desc: "catalog" }
-    - { name: "test-sso-linux", group: "sso", short_desc: "sso" }
+    - { name: "test-execution1-linux", group: "execution",  short_desc: "execution1" }
+    - { name: "test-execution2-linux", group: "execution",  short_desc: "execution2" }
+    - { name: "test-hub-linux",        group: "hub",        short_desc: "automationhub", instance_type: "t2.large"}
+    - { name: "test-catalog-linux",    group: "catalog",    short_desc: "catalog" }
+    - { name: "test-sso-linux",        group: "sso",        short_desc: "sso" }
 
 - name: Wait for provisioning to complete 
   async_status:

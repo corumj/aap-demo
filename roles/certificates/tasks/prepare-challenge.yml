@@ -26,6 +26,12 @@
     privatekey_path: "{{ acme_private_key_path }}"
     common_name: "{{ catalog_dns }}"
 
+- name: Create a CSR for Hub 
+  openssl_csr:
+    path: "{{ hub_csr_path }}"
+    privatekey_path: "{{ acme_private_key_path }}"
+    common_name: "{{ hub_dns }}"
+
 - name: Create DNS Challenge for Controller
   acme_certificate:
     account_key_src: "{{ acme_account_key_path }}"
@@ -68,6 +74,20 @@
     force: "{{ certificate_force }}"
   register: catalog_dns_challenge 
 
+- name: Create DNS Challenge for Automation Hub
+  acme_certificate:
+    account_key_src: "{{ acme_account_key_path }}"
+    account_email: "{{ cert_email }}"
+    csr: "{{ hub_csr_path }}"
+    dest: "{{ playbook_dir }}/generated_files/hub"
+    challenge: dns-01 
+    acme_directory: "{{ acme_env[certificate_env] }}"
+    acme_version: 2 
+    terms_agreed: yes 
+    remaining_days: 10 
+    force: "{{ certificate_force }}"
+  register: hub_dns_challenge 
+
 - name: set Controller challenge_record facts
   set_fact:
     controller_challenge_record: "{{ controller_dns_challenge.challenge_data[controller_dns]['dns-01'].record }}"
@@ -91,3 +111,11 @@
   when: 
     - catalog_dns_challenge is changed 
     - catalog_dns_challenge.challenge_data[catalog_dns] is defined
+
+- name: set Automation Hub challenge_record facts
+  set_fact:
+    hub_challenge_record: "{{ hub_dns_challenge.challenge_data[hub_dns]['dns-01'].record }}"
+    hub_challenge_value: "{{ hub_dns_challenge.challenge_data[hub_dns]['dns-01'].resource_value | regex_replace('^(.*)$', '\"\\1\"') }}"
+  when: 
+    - hub_dns_challenge is changed 
+    - hub_dns_challenge.challenge_data[hub_dns] is defined

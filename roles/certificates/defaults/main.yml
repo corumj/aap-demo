@@ -5,4 +5,5 @@ acme_private_key_path: "{{ playbook_dir }}/generated_files/cert_key"
 controller_csr_path: "{{ playbook_dir }}/generated_files/{{ controller_dns }}"
 sso_csr_path: "{{ playbook_dir }}/generated_files/{{ sso_dns }}"
 catalog_csr_path: "{{ playbook_dir }}/generated_files/{{ catalog_dns }}"
+hub_csr_path: "{{ playbook_dir }}/generated_files/{{ hub_dns }}"
 

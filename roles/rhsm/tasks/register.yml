@@ -1,5 +1,5 @@
 ---    
-- name: Subscribe to Ansible by Pool ID 
+- name: Subscribe 
   redhat_subscription:
     state: present
     username: "{{ redhat_username }}"

@@ -104,7 +104,7 @@
         state: present
         key: "{{ lookup('file', '{{ playbook_dir }}/generated_files/controller_id_rsa.pub') }}"
 
-- name: Install AAP, SSO, and Services Catalog 
+- name: Install Automation Controller, SSO, Automation Hub and Services Catalog 
   hosts: demo_controller 
 
   tasks:
@@ -141,7 +141,7 @@
         dest: "/home/ec2-user/aap/inventory"
 
     - name: run the Automation Controller installer
-      shell: "sudo ANSIBLE_BECOME_METHOD='sudo' ANSIBLE_BECOME=True ./setup.sh -e gpgcheck=0 -e create_preload_data=False"
+      shell: "sudo ANSIBLE_BECOME_METHOD='sudo' ANSIBLE_BECOME=True ./setup.sh -e gpgcheck=0 -e create_preload_data=False -- -vvv"
       args:
         chdir: "/home/ec2-user/aap"
       async: 2800

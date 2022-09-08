@@ -7,6 +7,7 @@ node_type=control
 
 [execution_nodes]
 {{ hostvars[groups['demo_execution'][0]]['public_dns_name'] }} ansible_user=ec2-user
+{{ hostvars[groups['demo_execution'][1]]['public_dns_name'] }} ansible_user=ec2-user
 
 [execution_nodes:vars]
 node_type=execution 
@@ -15,6 +16,7 @@ listener_protocol=tcp
 ansible_user=ec2-user
 
 [automationhub]
+{{ hostvars[groups['demo_hub'][0]]['public_dns_name'] }} ansible_user=ec2-user
 
 [automationcatalog]
 {{ hostvars[groups['demo_catalog'][0]]['public_dns_name'] }} ansible_user=ec2-user
@@ -54,6 +56,21 @@ registry_password='{{ redhat_password }}'
 #
 receptor_listener_port=27199
 
+# Automation Hub Configuration
+#
+
+automationhub_admin_password='{{ admin_password }}'
+
+automationhub_pg_host='{{ hostvars[groups['demo_controller'][0]]['private_dns_name'] }}'
+automationhub_pg_port=5432
+
+automationhub_pg_database='automationhub'
+automationhub_pg_username='automationhub'
+automationhub_pg_password='{{ admin_password }}'
+automationhub_pg_sslmode='prefer'
+
+automationhub_main_url = 'https://{{ hub_dns }}'
+
 automationcatalog_pg_host='{{ hostvars[groups['demo_controller'][0]]['private_dns_name'] }}'
 automationcatalog_pg_port='5432'
 
@@ -70,7 +87,7 @@ insights_password='{{ redhat_password }}'
 # For an alternative front end url needed for SSO configuration with Automation
 # Services Catalog, provide the URL.
 
-# automationcatalog_main_url='{{ catalog_dns }}'
+automationcatalog_main_url='https://{{ catalog_dns }}'
 
 # Certificate and key to install in nginx for the web UI and API
 web_server_ssl_cert=/home/ec2-user/aap/generated_files/{{ controller_dns }}_chain
