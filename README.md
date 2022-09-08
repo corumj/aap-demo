@@ -13,7 +13,7 @@ This repo of playbooks is designed to help Red Hatters easily deploy an AAP 2.x 
     aws_secret_access_key = ** <secret key> **
     ```
 3. Employee Subscriptions signed up for and Simple Content Access enabled.
-4. Create an [ansible.cfg](https://docs.ansible.com/ansible/latest/reference_appendices/config.html) file in the root of this repo (or use a global one) with correct tokens to consume Automation Hub content  
+4. Create an [ansible.cfg](https://docs.ansible.com/ansible/latest/reference_appendices/config.html) file in the root of this repo (or use a global one) with correct tokens to consume Automation Hub content.  Follow these instructions to retrieve the [Token](https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/1.0/html/getting_started_with_red_hat_ansible_automation_hub/proc-create-api-token)  
     ```ini
     [defaults]
     host_key_checking = False
@@ -70,7 +70,7 @@ This repo of playbooks is designed to help Red Hatters easily deploy an AAP 2.x 
     # End General 
     ```
 6. Download the AAP Installer, name it `aap.tar.gz` and save it in this repo 
-7. Create a Manifest to license AAP and name it `manifest.zip`, place it in this repo
+7. Create a Manifest to license AAP and name it `manifest.zip`, place it in this repo.  [Directions for creating the Manifest](https://docs.ansible.com/ansible-tower/latest/html/userguide/import_license.html#obtaining-a-subscriptions-manifest)
 
 ## To Use
 It is vitally important that you pay attention and shut these instances down, they're quite large and thus somewhat expensive.  
