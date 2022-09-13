@@ -179,6 +179,7 @@
     - name: Access Apps 
       debug:
         msg: 
-          - "Automation Controller: https://{{ controller_dns }}"
-          - "Automation Services Catalog: https://{{ catalog_dns }}"
-          - "SSO: https://{{ sso_dns }}:8443"
+          - "Automation Controller: https://{{ controller_dns }} "
+          - "Automation Hub: https://{{ hub_dns }}"
+          - "Automation Services Catalog: https://{{ catalog_dns }} "
+          - "SSO: https://{{ sso_dns }}:8443 "

@@ -1,0 +1,25 @@
+- name: Caching Facts Update ServiceNow CMDB from cached Ansible Facts 
+  hosts: localhost 
+  connection: local  
+  gather_facts: no
+  collections:  
+    - ansible.builtin 
+
+  tasks: 
+    - name: Update CMDB with data from Ansible Facts  
+      configuration_item_batch: 
+        sys_class_name: cmdb_ci_ec2_instance 
+        id_column_set: vm_inst_id 
+        dataset: "{{ hostvars[groups['aws_ec2']] }}"
+        map:
+          vm_inst_id: instance_id 
+          ip_address: public_ip_address 
+          name: tags.Name 
+          environment: tags.server_env 
+          cpus: cpu_options.core_count
+          mac_address: network_interfaces.mac_address
+          state: state.name 
+        instance: 
+          host: https://{{ servicenow_instance }}.service-now.com
+          username: "{{ servicenow_username }}"
+          password: "{{ servicenow_password }}"    

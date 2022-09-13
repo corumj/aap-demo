@@ -1,0 +1,32 @@
+---
+- name: Add missing EC2 Instances to SNOW CMDB 
+  hosts: localhost 
+  connection: local 
+  collections:  
+    - amazon.aws 
+    - servicenow.itsm 
+
+  tasks: 
+    - name: Retrieve instance information from AWS 
+      ec2_instance_info: 
+        filters:
+          "tag:demo": Ansible 
+      register: ec2_instances 
+
+    - name: Update CMDB with data from AWS 
+      configuration_item_batch: 
+        sys_class_name: cmdb_ci_ec2_instance 
+        id_column_set: vm_inst_id 
+        dataset: "{{ ec2_instances.instances }}"
+        map:
+          vm_inst_id: instance_id 
+          ip_address: public_ip_address 
+          name: tags.Name 
+          environment: tags.server_env 
+          cpus: cpu_options.core_count
+          mac_address: network_interfaces.mac_address
+          state: state.name 
+        instance: 
+          host: https://{{ servicenow_instance }}.service-now.com
+          username: "{{ servicenow_username }}"
+          password: "{{ servicenow_password }}"
