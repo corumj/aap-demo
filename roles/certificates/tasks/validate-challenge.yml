@@ -73,4 +73,4 @@
   register: hub_cert_valid
   when: 
     - hub_dns_challenge is changed 
-    - hub_dns_challenge.challenge_data[catalog_dns] is defined
+    - hub_dns_challenge.challenge_data[hub_dns] is defined

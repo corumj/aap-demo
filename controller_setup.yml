@@ -104,6 +104,16 @@
         state: present
         key: "{{ lookup('file', '{{ playbook_dir }}/generated_files/controller_id_rsa.pub') }}"
 
+    - name: Create directory for AAP certs 
+      ansible.builtin.file: 
+        path: ~/aap
+        state: directory 
+
+    - name: Copy certificates and keys 
+      ansible.builtin.copy: 
+        src: "{{ playbook_dir }}/generated_files/" 
+        dest: ~/aap/generated_files   
+
 - name: Install Automation Controller, SSO, Automation Hub and Services Catalog 
   hosts: demo_controller 
 
@@ -180,6 +190,6 @@
       debug:
         msg: 
           - "Automation Controller: https://{{ controller_dns }} "
-          - "Automation Hub: https://{{ hub_dns }}"
+          - "Automation Hub: https://{{ hub_dns }} "
           - "Automation Services Catalog: https://{{ catalog_dns }} "
           - "SSO: https://{{ sso_dns }}:8443 "

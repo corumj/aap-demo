@@ -1,5 +1,5 @@
 [automationcontroller]
-{{ hostvars[groups['demo_controller'][0]]['public_dns_name'] }} ansible_user=ec2-user
+{{ controller_dns }} ansible_user=ec2-user
 
 [automationcontroller:vars]
 peers=execution_nodes
@@ -16,15 +16,15 @@ listener_protocol=tcp
 ansible_user=ec2-user
 
 [automationhub]
-{{ hostvars[groups['demo_hub'][0]]['public_dns_name'] }} ansible_user=ec2-user
+{{ hub_dns }} ansible_user=ec2-user
 
 [automationcatalog]
-{{ hostvars[groups['demo_catalog'][0]]['public_dns_name'] }} ansible_user=ec2-user
+{{ catalog_dns }} ansible_user=ec2-user
 
 [database]
 
 [sso]
-{{ hostvars[groups['demo_sso'][0]]['public_dns_name'] }} ansible_user=ec2-user
+{{ sso_dns }} ansible_user=ec2-user
 
 [servicescatalog_workers]
 
@@ -92,6 +92,10 @@ automationcatalog_main_url='https://{{ catalog_dns }}'
 # Certificate and key to install in nginx for the web UI and API
 web_server_ssl_cert=/home/ec2-user/aap/generated_files/{{ controller_dns }}_chain
 web_server_ssl_key=/home/ec2-user/aap/generated_files/cert_key
+
+# Certificate and key to install in Automation Hub node
+automationhub_ssl_cert=/home/ec2-user/aap/generated_files/{{ hub_dns }}_chain
+automationhub_ssl_key=/home/ec2-user/aap/generated_files/cert_key
 
 # Keystore file to install in SSO node
 sso_custom_keystore_file='/home/ec2-user/aap/generated_files/sso.jks'
