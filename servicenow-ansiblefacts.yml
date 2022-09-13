@@ -1,9 +1,11 @@
+---
 - name: Caching Facts Update ServiceNow CMDB from cached Ansible Facts 
   hosts: localhost 
   connection: local  
   gather_facts: no
   collections:  
     - ansible.builtin 
+    - servicenow.itsm
 
   tasks: 
     - name: Update CMDB with data from Ansible Facts  
