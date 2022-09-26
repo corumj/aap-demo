@@ -1,0 +1,34 @@
+---
+- name: Create ServiceNow Project
+  ansible.controller.project:
+    name: ServiceNow 
+    state: present
+    wait: yes
+    organization: Default 
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "{{ controller_dns }}"
+    validate_certs: true
+    scm_type: git 
+    scm_url: https://github.com/corumj/ansible-servicenow-demo.git
+    scm_branch: platform
+    scm_update_on_launch: yes 
+
+- name: Create SNOW Initialize Demo template
+  ansible.controller.job_template:
+    name: "[SNOW] 1. Setup Controller and ServiceNow for closed-loop demo"
+    job_type: "run"
+    inventory: AWS
+    project: ServiceNow
+    playbook: "initialize.yml"
+    credentials: 
+      - "Controller Credential"
+      - "AWS"
+    use_fact_cache: yes
+    survey_enabled: yes 
+    survey_spec: "{{ lookup('file', 'servicenow.json') }}"
+    state: "present"
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "{{ controller_dns }}"
+    validate_certs: true

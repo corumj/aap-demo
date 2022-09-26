@@ -1,0 +1,117 @@
+---
+- name: Setup Controller Credential 
+  ansible.controller.credential:
+    state: present
+    name: Controller Credential
+    description: Controller Credential to automate Controller itself 
+    organization: Default 
+    credential_type: "Red Hat Ansible Automation Platform"
+    inputs:
+      username: "admin"
+      password: "{{ admin_password }}"
+      host: "https://controller.{{ top_level_domain }}"
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true
+
+- name: Create AWS Windows Machine credential 
+  ansible.controller.credential:
+    state: present 
+    name: AWS Windows 
+    description: AWS Windows Machine Credential 
+    organization: Default 
+    credential_type: Machine 
+    inputs:
+      username: administrator
+      password: "{{ admin_password }}"
+      become_method: runas 
+      become_username: Administrator 
+      become_password: "{{ admin_password }}"
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true
+
+- name: Create AWS Linux Machine credential 
+  ansible.controller.credential:
+    state: present 
+    name: AWS Linux 
+    description: AWS Linux Machine Credential 
+    organization: Default 
+    credential_type: Machine 
+    inputs:
+      username: ec2-user
+      ssh_key_data: "{{ private_key }}"
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true
+
+- name: Create AWS Credential 
+  ansible.controller.credential:
+    state: present
+    name: AWS
+    description: AWS Credential from saml 
+    organization: Default 
+    credential_type: Amazon Web Services
+    inputs:
+      username: "{{ lookup('ini', 'aws_access_key_id section=default file=~/.aws/credentials') }}"
+      password: "{{ lookup('ini', 'aws_secret_access_key section=default file=~/.aws/credentials') }}"
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true
+
+- name: Create Automation Hub Credential 
+  ansible.controller.credential:
+    state: present
+    name: Automation Hub
+    description: Automation Hub Credentials 
+    organization: Default 
+    credential_type: "Ansible Galaxy/Automation Hub API Token"
+    inputs:
+      url: "https://console.redhat.com/api/automation-hub/"
+      auth_url: "https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token"
+      token: "{{ hub_offline_token }}"
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true  
+
+- name: Create Automation Hub Credential 
+  ansible.controller.credential:
+    state: present
+    name: Ansible Galaxy
+    description: Ansible Galaxy 
+    organization: Default 
+    credential_type: "Ansible Galaxy/Automation Hub API Token"
+    inputs:
+      url: "https://galaxy.ansible.com"
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true  
+
+- name: Update Default org to use Automation Hub
+  ansible.controller.organization:
+    name: Default
+    state: present
+    galaxy_credentials:
+      - Automation Hub
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true  
+
+- name: Update Default org to use Automation Hub first and galaxy second
+  ansible.controller.organization:
+    name: Default
+    state: present
+    galaxy_credentials:
+      - Automation Hub
+      - Ansible Galaxy
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true  

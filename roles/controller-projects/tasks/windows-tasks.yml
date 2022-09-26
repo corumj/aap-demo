@@ -1,0 +1,65 @@
+---
+- name: Create Windows Tasks Project
+  ansible.controller.project:
+    name: Windows Tasks 
+    state: present
+    wait: yes
+    organization: Default 
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "{{ controller_dns }}"
+    validate_certs: true
+    scm_type: git 
+    scm_url: https://github.com/corumj/ansible-windows-admin-tasks
+    scm_update_on_launch: yes 
+
+- name: Create Windows - Configure DNS client template 
+  ansible.controller.job_template:
+    name: "[ Windows ] Configure DNS client"
+    job_type: run 
+    organization: Default 
+    inventory: AWS 
+    project: Windows Tasks 
+    playbook: dns_client.yml 
+    credentials:
+      - AWS Windows 
+    state: present 
+    ask_limit_on_launch: yes
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "{{ controller_dns }}"
+    use_fact_cache: yes 
+
+- name: Create Windows - Configure IIS template 
+  ansible.controller.job_template:
+    name: "[ Windows ] Configure IIS"
+    job_type: run 
+    organization: Default 
+    inventory: AWS 
+    project: Windows Tasks 
+    playbook: iis_basic.yml 
+    credentials:
+      - AWS Windows 
+    state: present 
+    ask_limit_on_launch: yes
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "{{ controller_dns }}"
+    use_fact_cache: yes 
+
+- name: Create Windows - Deploy Demo Frontend template 
+  ansible.controller.job_template:
+    name: "[ Windows ] Deploy GoAddr Frontend"
+    job_type: run 
+    organization: Default 
+    inventory: AWS 
+    project: Windows Tasks 
+    playbook: deploy_demo_front_end.yml 
+    credentials:
+      - AWS Windows 
+    ask_limit_on_launch: yes 
+    state: present 
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "{{ controller_dns }}"
+    use_fact_cache: yes 

@@ -27,6 +27,6 @@
           mac_address: network_interfaces.mac_address
           state: state.name 
         instance: 
-          host: https://{{ servicenow_instance }}.service-now.com
-          username: "{{ servicenow_username }}"
-          password: "{{ servicenow_password }}"
+          host: https://{{ servicenow_instance | default(SN_INSTANCE) }}.service-now.com
+          username: "{{ servicenow_username | default(SN_USERNAME) }}"
+          password: "{{ servicenow_password | default(SN_PASSWORD) }}"

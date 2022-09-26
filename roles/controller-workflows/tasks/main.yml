@@ -1,0 +1,3 @@
+---
+- name: Setup Stacked App workflow 
+  include_tasks: app-deployment.yml

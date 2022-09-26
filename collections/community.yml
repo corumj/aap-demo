@@ -1,0 +1,11 @@
+---
+collections:
+# Galaxy Collections
+  - name: community.crypto 
+    version: 2.5.0 
+  - name: community.general 
+    version: 5.5.0 
+  - name: community.aws 
+    version: 3.5.0 
+  - name: redhat_cop.controller_configuration
+    version: 2.1.7

@@ -1,0 +1,22 @@
+- name: Configure Automation Controller  
+  hosts: localhost 
+  connection: local 
+  gather_facts: no 
+
+  tasks:
+
+    - name: Add credentials
+      include_role:
+        name: controller-credentials
+
+    - name: Add Inventories 
+      include_role:
+        name: controller-inventory 
+
+    - name: Add Projects 
+      include_role:
+        name: controller-projects 
+
+    - name: Add Workflows 
+      include_role:
+        name: controller-workflows

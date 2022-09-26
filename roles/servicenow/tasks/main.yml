@@ -1,0 +1,100 @@
+---
+- name: Create a credential for Galaxy 
+  ansible.controller.credential:
+    name: ServiceNow Galaxy 
+    description: Credential for SNOW org to access Galaxy
+    organization: Default
+    credential_type: Ansible Galaxy/Automation Hub API Token
+    inputs:
+      url: https://galaxy.ansible.com/
+    state: present
+    tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+    tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+    tower_verify_ssl: true
+
+# - name: Install pysnow for SNOW integration 
+#   shell: /usr/bin/python3.6 -m pip install pysnow
+#   become: yes
+#   become_user: root
+#   delegate_to: localhost
+    
+- name: Setup ServiceNow project 
+  ansible.controller.project:
+    name: ServiceNow 
+    state: present
+    wait: yes
+    organization: Default 
+    tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+    tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+    tower_verify_ssl: true
+    scm_type: git 
+    scm_branch: "{{ servicenow_git_branch }}"
+    scm_url: https://github.com/corumj/ansible-servicenow-demo.git
+    scm_update_on_launch: yes 
+
+- name: Setup ServiceNow - Initialize job template
+  ansible.controller.job_template:
+    name: "SNOW- Initialize Demo"
+    job_type: "run"
+    inventory: AWS
+    project: ServiceNow
+    playbook: "initialize.yml"
+    organization: Default 
+    credentials: 
+      - "Controller Credential"
+      - "AWS"
+    survey_enabled: yes 
+    survey_spec: "{{ lookup('file', 'servicenow.json') }}"
+    state: "present"
+    tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+    tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+    tower_verify_ssl: true
+
+- name: Create tower team
+  ansible.controller.team:
+    name: ServiceNow
+    description: ServiceNow administrators
+    organization: Default
+    state: present
+    tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+    tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+    tower_verify_ssl: true
+
+- name: Add ServiceNow user
+  ansible.controller.user:
+    username: servicenow
+    password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    email: ServiceNow@example.local
+    first_name: ServiceNow
+    last_name: User
+    state: present
+    tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+    tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+    tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+    tower_verify_ssl: true
+
+- name: Promote ServiceNow team to ServiceNow project admin
+  ansible.controller.role:
+    team: ServiceNow
+    organization: Default
+    role: project_admin
+    state: present
+
+- name: Add ServiceNow user to team 
+  ansible.controller.role:
+    user: servicenow 
+    target_team: ServiceNow
+    role: member 
+    state: present
+
+- name: Add team permissions to init playbook
+  ansible.controller.role:
+    team: ServiceNow
+    job_template: SNOW- Initialize Demo
+    role: admin 
+    state: present
+

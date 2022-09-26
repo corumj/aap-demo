@@ -1,0 +1,52 @@
+{
+  "name": "",
+  "description": "",
+  "spec": [
+    {
+        "question_name": "Enter the Tower group name for your server",
+        "question_description": "",
+        "required": true,
+        "type": "text",
+        "variable": "survey_group_name",
+        "min": 3,
+        "max": 15,
+        "default": "",
+        "choices": ""
+    },
+    {
+        "question_name": "Enter a short description for this server",
+        "question_description": "",
+        "required": true,
+        "type": "text",
+        "variable": "survey_short_desc",
+        "min": 3,
+        "max": 15,
+        "default": "",
+        "choices": ""
+    },
+    {
+        "question_name": "Please select an environment",
+        "question_description": "",
+        "required": true,
+        "type": "multiplechoice",
+        "variable": "survey_server_env",
+        "min": null,
+        "max": null,
+        "default": "dev",
+        "choices": "dev\ntest",
+        "new_question": true
+    },
+    {
+        "question_name": "Choose a Server OS",
+        "question_description": "Linux or Windows",
+        "required": true,
+        "type": "multiplechoice",
+        "variable": "survey_server_os",
+        "min": null,
+        "max": null,
+        "default": "windows",
+        "choices": "windows\nlinux",
+        "new_question": true
+    }
+  ]
+}

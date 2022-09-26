@@ -1,0 +1,40 @@
+{
+  "name": "",
+  "description": "",
+  "spec": [
+    {
+        "question_name": "Enter your ServiceNow instance (ex: dev100496)",
+        "question_description": "",
+        "required": true,
+        "type": "text",
+        "variable": "survey_snow_instance",
+        "min": 3,
+        "max": 15,
+        "default": "",
+        "choices": ""
+    },
+    {
+        "question_name": "Enter your ServiceNow dev instance username",
+        "question_description": "",
+        "required": true,
+        "type": "text",
+        "variable": "survey_snow_username",
+        "min": 3,
+        "max": 30,
+        "default": "",
+        "choices": ""
+    },
+    {
+        "question_name": "Enter your ServiceNow dev instance password",
+        "question_description": "",
+        "required": true,
+        "type": "password",
+        "variable": "survey_snow_password",
+        "min": null,
+        "max": null,
+        "default": "",
+        "choices": "",
+        "new_question": true
+    }
+  ]
+}
