@@ -1,0 +1,9 @@
+- name: Create Default Organization
+  ansible.controller.organization: 
+    name: Default
+    description: Default Organization  
+    state: present 
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true

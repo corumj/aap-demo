@@ -4,6 +4,9 @@
   gather_facts: no 
 
   tasks:
+    - name: Add Organizations
+      include_role:
+        name: controller-organizations
 
     - name: Add credentials
       include_role:
