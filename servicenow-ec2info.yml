@@ -9,6 +9,7 @@
   tasks: 
     - name: Retrieve instance information from AWS 
       ec2_instance_info: 
+        region: "{{ region | default(omit) }}"
         filters:
           "tag:demo": Ansible 
       register: ec2_instances 
