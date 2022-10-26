@@ -6,7 +6,7 @@
     - community.hashi_vault
 
   vars: 
-    my_secret: "{{ lookup('hashi_vault', 'secret=secret/data/sample-secret }}"
+    my_secret: "{{ lookup('hashi_vault', 'secret=secret/data/sample-secret') }}"
   tasks: 
     - name: Print out secret 
       debug: 
