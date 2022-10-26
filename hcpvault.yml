@@ -6,4 +6,4 @@
   tasks: 
     - name: Print out secret 
       debug: 
-        var: ansible_password
+        msg: "{{ ansible_password }}"
