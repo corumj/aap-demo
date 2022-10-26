@@ -2,12 +2,8 @@
 - name: Test out using HashiCorp Vault 
   hosts: localhost
   connection: local 
-  collections: 
-    - community.hashi_vault
 
-  vars: 
-    my_secret: "{{ lookup('hashi_vault', 'secret=secret/data/sample-secret') }}"
   tasks: 
     - name: Print out secret 
       debug: 
-        var: my_secret 
+        var: ansible_password
