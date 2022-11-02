@@ -11,3 +11,5 @@ acme_env:
 controller_hostname: https://{{ controller_dns }}
 controller_username: admin 
 controller_password: "{{ admin_password }}"
+
+hub_offline_token: "{{ lookup('ini', 'token section=galaxy_server.automation_hub file=ansible.cfg') }}"

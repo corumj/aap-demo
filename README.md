@@ -71,6 +71,7 @@ This repo of playbooks is designed to help Red Hatters easily deploy an AAP 2.x 
     ```
 6. Download the AAP Installer, name it `aap.tar.gz` and save it in this repo 
 7. Create a Manifest to license AAP and name it `manifest.zip`, place it in this repo.  [Directions for creating the Manifest](https://docs.ansible.com/ansible-tower/latest/html/userguide/import_license.html#obtaining-a-subscriptions-manifest)
+8. Install OpenJDK so you can use keytool.  On a Mac, `brew install openjdk` works.  
 
 ## To Use
 It is vitally important that you pay attention and shut these instances down, they're quite large and thus somewhat expensive.  
