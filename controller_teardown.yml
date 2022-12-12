@@ -17,15 +17,19 @@
   gather_facts: no
 
   tasks:
+    - name: Revoke TLS certificates
+      include_role: 
+        name: certificates
+        tasks_from: revoke.yml
 
-  - name: Deprovision Demo EC2 Instances
-    community.aws.ec2_instance:
-      profile: "{{ aws_profile | default('') }}"
-      state: absent
-      filters:
-        "tag:demo": Ansible 
-        instance-state-name: running 
-      wait: yes
-      region: "{{ aws_region }}"
-      aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
-      aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+    - name: Deprovision Demo EC2 Instances
+      community.aws.ec2_instance:
+        profile: "{{ aws_profile | default('') }}"
+        state: absent
+        filters:
+          "tag:demo": Ansible 
+          instance-state-name: running 
+        wait: yes
+        region: "{{ aws_region }}"
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"

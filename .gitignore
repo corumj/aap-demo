@@ -7,3 +7,4 @@ aap.tar.gz
 ansible.cfg
 aap/*
 generated_files/*
+*.tar.gz 
