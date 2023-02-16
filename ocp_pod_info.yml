@@ -4,7 +4,7 @@
 
   vars: 
     ocp_username: "{{ ansible_user }}"
-    ocp_password: "{{ ansible_pass }}"
+    ocp_password: "{{ ansible_password }}"
 
   tasks:
     - name: Authenticate to OCP 
