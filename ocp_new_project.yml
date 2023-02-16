@@ -9,6 +9,7 @@
     ocp_host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
 
   tasks:
+  - name: Authenticate and Create Project/Namespace
     block:
       - name: Authenticate to OCP 
         redhat.openshift.openshift_auth:
@@ -34,10 +35,10 @@
           var: new_namespace
 
     always:
-    - name: If login succeeded, try to log out (revoke access token)
-      when: openshift_auth_results.openshift_auth.api_key is defined
-      redhat.openshift.openshift_auth:
-        state: absent
-        api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
-        host: "{{ ocp_host }}"
-        validate_certs: no 
+      - name: If login succeeded, try to log out (revoke access token)
+        when: openshift_auth_results.openshift_auth.api_key is defined
+        redhat.openshift.openshift_auth:
+          state: absent
+          api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+          host: "{{ ocp_host }}"
+          validate_certs: no 
