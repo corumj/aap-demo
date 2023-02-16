@@ -12,6 +12,7 @@
         username: "{{ ocp_username }}"
         password: "{{ ocp_password }}"
         host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+        validate_certs: no 
       register: openshift_auth_results
 
     - name: Get a list of all pods from any namespace
@@ -19,4 +20,5 @@
         api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
         kind: Pod
         host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+        validate_certs: no 
       register: pod_list
