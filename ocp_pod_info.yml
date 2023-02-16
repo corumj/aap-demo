@@ -22,3 +22,7 @@
         host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
         validate_certs: no 
       register: pod_list
+
+    - name: Print out the pods 
+      debug: 
+        var: pod_list
