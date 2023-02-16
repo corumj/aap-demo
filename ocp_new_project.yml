@@ -6,6 +6,7 @@
     project_name: "{{ survey_project_name }}"
     ocp_username: "{{ ansible_user }}"
     ocp_password: "{{ ansible_password }}"
+    ocp_host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
 
   tasks:
     block:
@@ -13,7 +14,7 @@
         redhat.openshift.openshift_auth:
           username: "{{ ocp_username }}"
           password: "{{ ocp_password }}"
-          host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+          host: "{{ ocp_host }}"
           validate_certs: no 
         register: openshift_auth_results
 
@@ -23,13 +24,14 @@
           api_version: v1
           kind: Namespace
           state: present
-          host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+          host: "{{ ocp_host }}"
           validate_certs: no 
-        register: pod_list
+          wait: true 
+        register: new_namespace
 
-      - name: Print out the pods 
+      - name: Print out the namespace 
         debug: 
-          var: pod_list
+          var: new_namespace
 
     always:
     - name: If login succeeded, try to log out (revoke access token)
@@ -37,5 +39,5 @@
       redhat.openshift.openshift_auth:
         state: absent
         api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
-        host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+        host: "{{ ocp_host }}"
         validate_certs: no 
