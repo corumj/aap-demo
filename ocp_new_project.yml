@@ -1,0 +1,41 @@
+--- 
+- name: Create new Project 
+  hosts: localhost 
+
+  vars: 
+    project_name: "{{ survey_project_name }}"
+    ocp_username: "{{ ansible_user }}"
+    ocp_password: "{{ ansible_password }}"
+
+  tasks:
+    block:
+      - name: Authenticate to OCP 
+        redhat.openshift.openshift_auth:
+          username: "{{ ocp_username }}"
+          password: "{{ ocp_password }}"
+          host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+          validate_certs: no 
+        register: openshift_auth_results
+
+      - name: Create a k8s namespace
+        redhat.openshift.k8s:
+          name: "{{ project_name }}"
+          api_version: v1
+          kind: Namespace
+          state: present
+          host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+          validate_certs: no 
+        register: pod_list
+
+      - name: Print out the pods 
+        debug: 
+          var: pod_list
+
+    always:
+    - name: If login succeeded, try to log out (revoke access token)
+      when: openshift_auth_results.openshift_auth.api_key is defined
+      redhat.openshift.openshift_auth:
+        state: absent
+        api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+        host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+        validate_certs: no 
