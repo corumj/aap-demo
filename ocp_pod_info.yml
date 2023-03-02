@@ -9,31 +9,32 @@
     ocp_namespace: "{{ survey_ocp_namespace }}"
 
   tasks:
-    block:
-      - name: Authenticate to OCP 
+    - name: Authenticate and Get Pod Info
+      block:
+        - name: Authenticate to OCP 
+          redhat.openshift.openshift_auth:
+            username: "{{ ocp_username }}"
+            password: "{{ ocp_password }}"
+            host: "{{ ocp_host }}"
+            validate_certs: no 
+          register: openshift_auth_results
+
+        - name: Get a list of all pods from any namespace
+          kubernetes.core.k8s_info:
+            api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+            kind: Pod
+            namespace: "{{ survey_ocp_namespace }}" 
+            host: "{{ ocp_host }}"
+            validate_certs: no 
+          register: pod_list
+
+        - name: Print out the pods 
+          debug: 
+            var: pod_list
+
+      always:
+      - name: If login succeeded, try to log out (revoke access token)
+        when: openshift_auth_results.openshift_auth.api_key is defined
         redhat.openshift.openshift_auth:
-          username: "{{ ocp_username }}"
-          password: "{{ ocp_password }}"
-          host: "{{ ocp_host }}"
-          validate_certs: no 
-        register: openshift_auth_results
-
-      - name: Get a list of all pods from any namespace
-        kubernetes.core.k8s_info:
-          api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
-          kind: Pod
-          namespace: "{{ survey_ocp_namespace }}" 
-          host: "{{ ocp_host }}"
-          validate_certs: no 
-        register: pod_list
-
-      - name: Print out the pods 
-        debug: 
-          var: pod_list
-
-    always:
-    - name: If login succeeded, try to log out (revoke access token)
-      when: openshift_auth_results.openshift_auth.api_key is defined
-      redhat.openshift.openshift_auth:
-        state: absent
-        api_key: "{{ ocp_host }}"
+          state: absent
+          api_key: "{{ ocp_host }}"
