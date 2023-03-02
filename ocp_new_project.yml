@@ -6,7 +6,7 @@
     project_name: "{{ survey_project_name }}"
     ocp_username: "{{ ansible_user }}"
     ocp_password: "{{ ansible_password }}"
-    ocp_host: https://api.cluster-wjrt5.wjrt5.sandbox2082.opentlc.com:6443
+    ocp_host: "{{ survey_ocp_host }}"
 
   tasks:
   - name: Authenticate and Create Project/Namespace
