@@ -1,0 +1,11 @@
+---
+- name: Test fact caching with custom facts 
+  hosts: all 
+  gather_facts: yes
+  tasks:
+    - name: set some fact 
+      set_fact:
+        pizza: 'pineapple'
+        tech: 'biscuit'
+
+    
