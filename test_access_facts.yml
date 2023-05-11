@@ -1,6 +1,6 @@
 ---
 - name: Test fact caching with custom facts 
-  hosts: all 
+  hosts: node1 
   gather_facts: no
   tasks:
     - name: get some facts
