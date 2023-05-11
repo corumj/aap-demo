@@ -1,0 +1,45 @@
+---
+- name: Test out accessing nested dictionary objects  
+  hosts: localhost 
+  connection: local 
+  gather_facts: no
+
+  vars:
+    new_dict: "{{ default([]) }}"
+    test_dict:
+      - project_key: PROJECT1
+        project_name: PROJECT 1
+        description: Source code for Project 1
+        repos:
+          - name: repo-1
+            permissions:
+              - Group_prj1_repo1_1
+              - Group_prj1_repo1_2
+          - name: repo-2
+            permissions:
+              - Group_prj1_repo2_1
+              - Group_prj1_repo2_2
+      - project_key: PROJECT2
+        project_name: PROJECT 2
+        description: Source code for Project 2
+        repos:
+          - name: repo-1
+            permissions:
+              - Group_prj2_1
+              - Group_prj2_2
+    
+  tasks:
+
+    - name: Print list 
+      debug: 
+        msg: "{{ lookup('ansible.builtin.template', 'project_permissions.j2') }}"
+
+    # - name: Outer Loop
+    #   include_tasks: nested_loop.yml
+    #   with_subelements:
+    #     - "{{ test_dict }}"
+    #     - repos
+    #   loop_control:
+    #     loop_var: outside_item
+    #   vars:
+    #     repos: "{{ outside_item }}"

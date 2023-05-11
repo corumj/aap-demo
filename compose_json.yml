@@ -1,0 +1,12 @@
+---
+- name: Test outputting curly braces 
+  hosts: localhost 
+  connection: local 
+
+  vars:
+    username: Jerry 
+
+  tasks: 
+    - name: Template an API Call 
+      debug: 
+        msg: "{{ '{{' }} {{ username }} {{ '}}' }}"

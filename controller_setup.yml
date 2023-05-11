@@ -38,6 +38,30 @@
     #     - absent
     #     - directory
 
+    # So instead, lets find all the files, exclude the ones we know should be there.
+    - name: Find files to delete, excepting acme_cert and cert_key
+      find:
+        paths: "{{ playbook_dir }}/generated_files"
+        file_type: file 
+        excludes:
+          - "acme_key"
+          - "cert_key"
+          - "catalog"
+          - "controller"
+          - "hub"
+          - "sso"
+          - "catalog.{{ top_level_domain }}*"
+          - "controller.{{ top_level_domain }}*"
+          - "hub.{{ top_level_domain }}*"
+          - "sso.{{ top_level_domain }}*"
+      register: found_cert_files 
+        
+    - name: Delete old certs 
+      file:
+        path: "{{ item.path }}"
+        state: absent 
+      loop: "{{ found_cert_files['files'] }}"
+
     - meta: refresh_inventory
 
     - name: Prepare certificate challenges for Controller, SSO, and Catalog 
@@ -165,8 +189,8 @@
       shell: "sudo ANSIBLE_BECOME_METHOD='sudo' ANSIBLE_BECOME=True ./setup.sh -e gpgcheck=0 -e create_preload_data=False -- -vvv"
       args:
         chdir: "/home/ec2-user/aap"
-      async: 2800
-      poll: 30
+      async: 4800
+      poll: 60
 
     - name: wait for Automation Controller to be up
       uri:

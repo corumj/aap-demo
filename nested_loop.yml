@@ -1,0 +1,5 @@
+---
+- name: Print out loop 
+  debug: 
+    msg: "{{ item }}"
+  loop: "{{ repos }}"

@@ -8,3 +8,4 @@ ansible.cfg
 aap/*
 generated_files/*
 *.tar.gz 
+*.py
