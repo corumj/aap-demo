@@ -1,0 +1,14 @@
+---
+- name: Test fact caching with custom facts 
+  hosts: all 
+  gather_facts: no
+  tasks:
+    - name: get some facts
+      debug: 
+        var: pizza 
+
+
+      # set_fact:
+      #   pizza: 'pineapple'
+      #   tech: 'biscuit'
+      #   cacheable: true
