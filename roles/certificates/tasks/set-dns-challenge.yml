@@ -14,36 +14,6 @@
     - controller_dns_challenge is changed 
     - controller_dns_challenge.challenge_data[controller_dns] is defined
 
-- name: Setup SSO dns check for acme challenge 
-  community.aws.route53:
-    profile: "{{ aws_profile }}"
-    state: present 
-    zone: "{{ top_level_domain }}"
-    record: "{{ sso_challenge_record }}"
-    type: TXT
-    value: "{{ sso_challenge_value }}"
-    ttl: 60
-    wait: yes
-    overwrite: yes
-  when: 
-    - sso_dns_challenge is changed 
-    - sso_dns_challenge.challenge_data[sso_dns] is defined
-
-- name: Setup Services Catalog dns check for acme challenge 
-  community.aws.route53:
-    profile: "{{ aws_profile }}"
-    state: present 
-    zone: "{{ top_level_domain }}"
-    record: "{{ catalog_challenge_record }}"
-    type: TXT
-    value: "{{ catalog_challenge_value }}"
-    ttl: 60
-    wait: yes
-    overwrite: yes
-  when: 
-    - catalog_dns_challenge is changed 
-    - catalog_dns_challenge.challenge_data[catalog_dns] is defined
-
 - name: Setup Automation Hub dns check for acme challenge 
   community.aws.route53:
     profile: "{{ aws_profile }}"
@@ -58,3 +28,18 @@
   when: 
     - hub_dns_challenge is changed 
     - hub_dns_challenge.challenge_data[hub_dns] is defined
+
+- name: Setup EDA Controller dns check for acme challenge 
+  community.aws.route53:
+    profile: "{{ aws_profile }}"
+    state: present 
+    zone: "{{ top_level_domain }}"
+    record: "{{ eda_challenge_record }}"
+    type: TXT
+    value: "{{ eda_challenge_value }}"
+    ttl: 60
+    wait: yes
+    overwrite: yes
+  when: 
+    - eda_dns_challenge is changed 
+    - eda_dns_challenge.challenge_data[eda_dns] is defined

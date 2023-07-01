@@ -1,9 +1,9 @@
 --- 
 ansible_user: ec2-user 
 controller_dns: controller.{{ top_level_domain }}
-sso_dns: sso.{{ top_level_domain }}
-catalog_dns: catalog.{{ top_level_domain }}
+# sso_dns: sso.{{ top_level_domain }}
 hub_dns: hub.{{ top_level_domain }}
+eda_dns: eda.{{ top_level_domain }}
 
 acme_env: 
   staging: https://acme-staging-v02.api.letsencrypt.org/directory

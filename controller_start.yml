@@ -1,4 +1,4 @@
-- name: Shutdown AAP infrastructure 
+- name: Start AAP Servers 
   hosts: localhost
   connection: local 
   gather_facts: no
@@ -26,13 +26,13 @@
         name: certificates
         tasks_from: set-dns.yml
 
-- name: Shutdown Controller 
+- name: Start Controller Service
   hosts: demo_controller 
   gather_facts: no 
   become: yes 
 
   tasks: 
-    - name: Shut down AAP service 
+    - name: Start AAP service 
       service:
         name: automation-controller 
         state: started  
@@ -42,5 +42,3 @@
         msg: 
           - "Automation Controller: https://{{ controller_dns }} "
           - "Automation Hub: https://{{ hub_dns }} "
-          - "Automation Services Catalog: https://{{ catalog_dns }} "
-          - "SSO: https://{{ sso_dns }}:8443 "

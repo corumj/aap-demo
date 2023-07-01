@@ -11,30 +11,6 @@
     wait: yes
     overwrite: yes
 
-- name: Setup Route 53 for sso domain name 
-  community.aws.route53:
-    profile: "{{ aws_profile }}"
-    state: present 
-    zone: "{{ top_level_domain }}"
-    record: "{{ sso_dns }}"
-    type: A
-    value: "{{ hostvars[groups['demo_sso'][0]]['public_ip_address'] }}"
-    ttl: 300
-    wait: yes
-    overwrite: yes
-
-- name: Setup Route 53 for catalog domain name 
-  community.aws.route53:
-    profile: "{{ aws_profile }}"
-    state: present 
-    zone: "{{ top_level_domain }}"
-    record: "{{ catalog_dns }}"
-    type: A
-    value: "{{ hostvars[groups['demo_catalog'][0]]['public_ip_address'] }}"
-    ttl: 300
-    wait: yes
-    overwrite: yes
-
 - name: Setup Route 53 for Automation Hub domain name 
   community.aws.route53:
     profile: "{{ aws_profile }}"
@@ -43,6 +19,18 @@
     record: "{{ hub_dns }}"
     type: A
     value: "{{ hostvars[groups['demo_hub'][0]]['public_ip_address'] }}"
+    ttl: 300
+    wait: yes
+    overwrite: yes
+
+- name: Setup Route 53 for EDA Controller domain name 
+  community.aws.route53:
+    profile: "{{ aws_profile }}"
+    state: present 
+    zone: "{{ top_level_domain }}"
+    record: "{{ eda_dns }}"
+    type: A
+    value: "{{ hostvars[groups['demo_eda'][0]]['public_ip_address'] }}"
     ttl: 300
     wait: yes
     overwrite: yes

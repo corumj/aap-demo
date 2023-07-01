@@ -1,5 +1,5 @@
 ---
-- name: Revoke certificate with account key
+- name: Revoke certificates with account key
   community.crypto.acme_certificate_revoke:
     account_key_src: "{{ acme_account_key_path }}"
     certificate: "{{ playbook_dir }}/generated_files/{{ item }}.{{ top_level_domain}}_chain"
@@ -8,5 +8,12 @@
   loop:
     - "controller"
     - "hub"
-    - "sso"
-    - "catalog"
+    - "eda"
+
+- name: Remove certs 
+  ansible.builtin.file:
+    name: "{{ playbook_dir}}/generated_files"
+    state: "{{ item }}"
+  loop:
+    - absent 
+    - directory

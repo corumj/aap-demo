@@ -18,44 +18,6 @@
     - controller_dns_challenge is changed 
     - controller_dns_challenge.challenge_data[controller_dns] is defined
 
-- name: Validate SSO DNS Challenge 
-  acme_certificate:
-    account_key_src: "{{ acme_account_key_path }}"
-    account_email: "{{ cert_email }}"
-    csr: "{{ sso_csr_path }}"
-    dest: "{{ playbook_dir }}/generated_files/sso"
-    fullchain_dest: "{{ playbook_dir }}/generated_files/sso.{{ top_level_domain}}_chain"
-    challenge: dns-01 
-    acme_directory: "{{ acme_env[certificate_env] }}"
-    acme_version: 2 
-    terms_agreed: yes 
-    remaining_days: 10 
-    data: "{{ sso_dns_challenge }}"
-    force: "{{ certificate_force }}"
-  register: sso_cert_valid
-  when: 
-    - sso_dns_challenge is changed 
-    - sso_dns_challenge.challenge_data[sso_dns] is defined
-
-- name: Validate Catalog DNS Challenge 
-  acme_certificate:
-    account_key_src: "{{ acme_account_key_path }}"
-    account_email: "{{ cert_email }}"
-    csr: "{{ catalog_csr_path }}"
-    dest: "{{ playbook_dir }}/generated_files/catalog"
-    fullchain_dest: "{{ playbook_dir }}/generated_files/catalog.{{ top_level_domain}}_chain"
-    challenge: dns-01 
-    acme_directory: "{{ acme_env[certificate_env] }}"
-    acme_version: 2 
-    terms_agreed: yes 
-    remaining_days: 10 
-    data: "{{ catalog_dns_challenge }}"
-    force: "{{ certificate_force }}"
-  register: catalog_cert_valid
-  when: 
-    - catalog_dns_challenge is changed 
-    - catalog_dns_challenge.challenge_data[catalog_dns] is defined
-
 - name: Validate Automation Hub DNS Challenge 
   acme_certificate:
     account_key_src: "{{ acme_account_key_path }}"
@@ -74,3 +36,22 @@
   when: 
     - hub_dns_challenge is changed 
     - hub_dns_challenge.challenge_data[hub_dns] is defined
+
+- name: Validate EDA Controller DNS Challenge 
+  acme_certificate:
+    account_key_src: "{{ acme_account_key_path }}"
+    account_email: "{{ cert_email }}"
+    csr: "{{ eda_csr_path }}"
+    dest: "{{ playbook_dir }}/generated_files/eda"
+    fullchain_dest: "{{ playbook_dir }}/generated_files/eda.{{ top_level_domain}}_chain"
+    challenge: dns-01 
+    acme_directory: "{{ acme_env[certificate_env] }}"
+    acme_version: 2 
+    terms_agreed: yes 
+    remaining_days: 10 
+    data: "{{ eda_dns_challenge }}"
+    force: "{{ certificate_force }}"
+  register: eda_cert_valid
+  when: 
+    - eda_dns_challenge is changed 
+    - eda_dns_challenge.challenge_data[eda_dns] is defined

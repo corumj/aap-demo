@@ -39,32 +39,32 @@
     #     - directory
 
     # So instead, lets find all the files, exclude the ones we know should be there.
-    - name: Find files to delete, excepting acme_cert and cert_key
-      find:
-        paths: "{{ playbook_dir }}/generated_files"
-        file_type: file 
-        excludes:
-          - "acme_key"
-          - "cert_key"
-          - "catalog"
-          - "controller"
-          - "hub"
-          - "sso"
-          - "catalog.{{ top_level_domain }}*"
-          - "controller.{{ top_level_domain }}*"
-          - "hub.{{ top_level_domain }}*"
-          - "sso.{{ top_level_domain }}*"
-      register: found_cert_files 
+    # - name: Find files to delete, excepting acme_cert and cert_key
+    #   find:
+    #     paths: "{{ playbook_dir }}/generated_files"
+    #     file_type: file 
+    #     excludes:
+    #       - "acme_key"
+    #       - "cert_key"
+    #       - "catalog"
+    #       - "controller"
+    #       - "hub"
+    #       - "sso"
+    #       - "catalog.{{ top_level_domain }}*"
+    #       - "controller.{{ top_level_domain }}*"
+    #       - "hub.{{ top_level_domain }}*"
+    #       - "sso.{{ top_level_domain }}*"
+    #   register: found_cert_files 
         
-    - name: Delete old certs 
-      file:
-        path: "{{ item.path }}"
-        state: absent 
-      loop: "{{ found_cert_files['files'] }}"
+    # - name: Delete old certs 
+    #   file:
+    #     path: "{{ item.path }}"
+    #     state: absent 
+    #   loop: "{{ found_cert_files['files'] }}"
 
     - meta: refresh_inventory
 
-    - name: Prepare certificate challenges for Controller, SSO, and Catalog 
+    - name: Prepare certificate challenges for Controller, EDA, and Hub 
       include_role:
         name: certificates
         tasks_from: prepare-challenge.yml 
@@ -79,14 +79,6 @@
         name: certificates
         tasks_from: validate-challenge.yml
 
-    - name: Create SSO Java Keystore 
-      java_keystore:
-        name: sso
-        certificate: "{{ lookup('file', '{{ playbook_dir }}/generated_files/{{ sso_dns }}_chain') }}"
-        private_key: "{{ lookup('file', '{{ playbook_dir }}/generated_files/cert_key') }}"
-        password: "{{ admin_password }}"
-        dest: "{{ playbook_dir }}/generated_files/sso.jks"
-
     - name: Setup AWS Route 53 for TLS 
       include_role:
         name: certificates 
@@ -95,6 +87,7 @@
 - name: Register with RHSM and update 
   hosts: all 
   become: yes 
+  gather_facts: no
 
   tasks: 
     - name: Register servers to RHSM 
@@ -104,11 +97,6 @@
 
     - name: Make sure repositories are allowed to be managed from subscription-manager 
       shell: subscription-manager config --rhsm.manage_repos=1 
-
-    - name: Enable jb-eap repo 
-      rhsm_repository:
-        name: jb-eap-7.3-for-rhel-8-x86_64-rpms
-        state: enabled 
         
     - name: Update servers 
       dnf: 
@@ -117,7 +105,7 @@
 
 - name: Generate Controller SSH Key pair 
   hosts: demo_controller 
-
+  gather_facts: no 
   tasks: 
     - name: Generate an OpenSSH keypair
       community.crypto.openssh_keypair:
@@ -131,7 +119,8 @@
 
 - name: Add Controller ssh key to authorized keys for AAP hosts 
   hosts: aws_ec2
-
+  gather_facts: no 
+  
   tasks:
     - name: Set authorized key taken from file
       ansible.posix.authorized_key:
@@ -226,5 +215,4 @@
         msg: 
           - "Automation Controller: https://{{ controller_dns }} "
           - "Automation Hub: https://{{ hub_dns }} "
-          - "Automation Services Catalog: https://{{ catalog_dns }} "
-          - "SSO: https://{{ sso_dns }}:8443 "
+          - "EDA Controller: https://{{ eda_dns }} "

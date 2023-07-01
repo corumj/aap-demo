@@ -3,7 +3,7 @@
     region: "{{ aws_region }}"
     owners: 309956199498
     filters:
-      name: 'RHEL-8*HVM-*Hourly*'
+      name: 'RHEL-9*HVM-*Hourly*'
       architecture: x86_64
   register: amis
 
@@ -44,10 +44,8 @@
   loop:
     - { name: "test-controller-linux", group: "controller", short_desc: "controller" }
     - { name: "test-execution1-linux", group: "execution",  short_desc: "execution1" }
-    - { name: "test-execution2-linux", group: "execution",  short_desc: "execution2" }
     - { name: "test-hub-linux",        group: "hub",        short_desc: "automationhub", instance_type: "t2.large"}
-    - { name: "test-catalog-linux",    group: "catalog",    short_desc: "catalog" }
-    - { name: "test-sso-linux",        group: "sso",        short_desc: "sso" }
+    - { name: "test-eda-linux",        group: "eda",        short_desc: "edacontroller"}
 
 - name: Wait for provisioning to complete 
   async_status:
