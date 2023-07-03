@@ -1,0 +1,10 @@
+---
+- name: Respond to a Webhook Event 
+  hosts: localhost 
+  connection: local 
+  gather_facts: false 
+  
+  tasks:
+    - name: Print webhook payload 
+      debug:
+        var: "{{ event }}"
