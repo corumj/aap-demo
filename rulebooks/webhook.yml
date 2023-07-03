@@ -23,4 +23,4 @@
           organization: Default 
           job_args:
             extra_vars:
-              ansible_eda: event
+              ansible_eda: "{{ event }}"
