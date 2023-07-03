@@ -2,6 +2,9 @@
 - name: Add Ansible Demo project
   include_tasks: ansible-demo.yml
 
+- name: Add AAP Demo Project
+  include_tasks: aap-demo.yml 
+
 - name: Add ServiceNow project
   include_tasks: service-now.yml
 

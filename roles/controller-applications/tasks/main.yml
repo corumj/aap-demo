@@ -1,0 +1,25 @@
+---
+- name: Add Event Driven Controller Application 
+  ansible.controller.application:
+    name: EDA
+    description: EDA Controller Application 
+    organization: Default 
+    state: present 
+    authorization_grant_type: password
+    client_type: public 
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true  
+
+- name: Create App Token 
+  ansible.controller.token:
+    application: EDA 
+    description: EDA Access Token 
+    scope: write 
+    state: present 
+    controller_username: "admin"
+    controller_password: "{{ admin_password }}"
+    controller_host: "https://controller.{{ top_level_domain }}"
+    validate_certs: true  
+  register: eda_token 

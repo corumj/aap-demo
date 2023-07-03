@@ -23,3 +23,11 @@
     - name: Add Workflows 
       include_role:
         name: controller-workflows
+
+    - name: Add Applications 
+      include_role:
+        name: controller-applications 
+
+    - name: Configure EDA 
+      include_role:
+        name: controller-eda 

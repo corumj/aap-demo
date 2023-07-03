@@ -69,34 +69,3 @@
     controller_password: "{{ admin_password }}"
     controller_host: "https://controller.{{ top_level_domain }}"
     use_fact_cache: yes 
-
-- name: Create AAP Demo Project
-  ansible.controller.project:
-    name: AAP Demo 
-    state: present
-    wait: yes
-    organization: Default 
-    controller_username: "admin"
-    controller_password: "{{ admin_password }}"
-    controller_host: "https://controller.{{ top_level_domain }}"
-    validate_certs: true
-    scm_type: git 
-    scm_url: https://github.com/corumj/aap-demo.git
-    scm_branch: main
-    scm_update_on_launch: yes 
-
-- name: EDA - Create Webhook Response Template
-  ansible.controller.job_template:
-    name: "EDA - Webhook Response"
-    job_type: "run"
-    inventory: AWS
-    project: AAP Demo
-    playbook: "webhook_action.yml"
-    credentials: 
-      - "Controller Credential"
-    ask_variables_on_launch: yes
-    state: "present"
-    controller_username: "admin"
-    controller_password: "{{ admin_password }}"
-    controller_host: "https://controller.{{ top_level_domain }}"
-    validate_certs: true
