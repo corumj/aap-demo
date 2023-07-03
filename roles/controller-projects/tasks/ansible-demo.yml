@@ -87,7 +87,7 @@
 
 - name: EDA - Create Webhook Response Template
   ansible.controller.job_template:
-    name: "EDA - Webbook Response"
+    name: "EDA - Webhook Response"
     job_type: "run"
     inventory: AWS
     project: AAP Demo
