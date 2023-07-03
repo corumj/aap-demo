@@ -7,4 +7,4 @@
   tasks:
     - name: Print webhook payload 
       debug:
-        var: "{{ ansible_eda }}"
+        msg: "{{ ansible_eda.event.payload.message }}"
