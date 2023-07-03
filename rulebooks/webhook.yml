@@ -21,3 +21,6 @@
         run_job_template:
           name: EDA - Webhook Response
           organization: Default 
+          job_args:
+            extra_vars:
+              ansible_eda: ansible_eda
