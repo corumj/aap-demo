@@ -1,7 +1,7 @@
 ---
 - name: Create new Project in EDA Controller 
   ansible.builtin.uri:
-    url: https://eda.sandbox1168.opentlc.com/api/eda/v1/projects/
+    url: https://eda.{{ top_level_domain }}/api/eda/v1/projects/
     method: GET 
     user: admin 
     password: "{{ admin_password }}"
@@ -11,7 +11,7 @@
 
 - name: Create new Project in EDA Controller 
   ansible.builtin.uri:
-    url: https://eda.sandbox1168.opentlc.com/api/eda/v1/projects/
+    url: https://eda.{{ top_level_domain }}/api/eda/v1/projects/
     method: POST 
     user: admin 
     password: "{{ admin_password }}"
@@ -26,7 +26,7 @@
 
 - name: Create new Controller token in EDA Controller 
   ansible.builtin.uri:
-    url: https://eda.sandbox1168.opentlc.com/api/eda/v1/users/me/awx-tokens/
+    url: https://eda.{{ top_level_domain }}/api/eda/v1/users/me/awx-tokens/
     method: GET 
     user: admin 
     password: "{{ admin_password }}"
@@ -39,7 +39,7 @@
 
 - name: Create new Controller token in EDA Controller 
   ansible.builtin.uri:
-    url: https://eda.sandbox1168.opentlc.com/api/eda/v1/users/me/awx-tokens/
+    url: https://eda.{{ top_level_domain }}/api/eda/v1/users/me/awx-tokens/
     method: POST 
     user: admin 
     password: "{{ admin_password }}"
