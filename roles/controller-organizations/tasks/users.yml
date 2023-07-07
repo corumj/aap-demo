@@ -1,8 +1,8 @@
 ---
-- name: Create Default Organization
+- name: "Create {{ item.username }}'s Organizations"
   ansible.controller.organization: 
-    name: Default
-    description: Default Organization  
+    name: "{{ item.username }}-org"
+    description: "Organization for {{ item.username }}" 
     state: present 
     controller_username: "admin"
     controller_password: "{{ admin_password }}"

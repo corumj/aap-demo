@@ -42,3 +42,4 @@
         msg: 
           - "Automation Controller: https://{{ controller_dns }} "
           - "Automation Hub: https://{{ hub_dns }} "
+          - "EDA Controller: https://{{ eda_dns }} "
