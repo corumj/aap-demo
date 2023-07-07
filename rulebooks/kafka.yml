@@ -1,5 +1,5 @@
 ---
-- name: Listen for events on a webhook
+- name: Listen for events in a Kafka Stream
   hosts: all
 
   ## Define our source for events
@@ -9,6 +9,7 @@
         host: ec2-3-142-121-238.us-east-2.compute.amazonaws.com
         port: 9094
         topic: ansible 
+        check_hostname: False
 
   ## Define the conditions we are looking for
 
