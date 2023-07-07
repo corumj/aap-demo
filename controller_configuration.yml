@@ -34,7 +34,7 @@
 
     - name: Configure optional users 
       block: 
-        - name: Create users 
+        - name: Create Controller and EDA Controller users 
           ansible.builtin.include_role:
             name: controller-users 
           loop: "{{ aap_users }}"
@@ -45,18 +45,8 @@
             tasks_from: users.yml 
           loop: "{{ aap_users }}"
 
-        - name: Get EDA Controller Admin role UID 
-          ansible.builtin.uri:
-            url: https://eda.{{ top_level_domain }}/api/eda/v1/roles/
-            method: GET 
-            user: admin 
-            password: "{{ admin_password }}"
-            force_basic_auth: true 
-            status_code: 200 
-          register: eda_roles 
-
-        - name: Test EDA Roles setup 
+        - name: Create user Admin roles 
           ansible.builtin.include_role:
-            name: controller-users 
+            name: controller-roles 
           loop: "{{ aap_users }}"
       when: create_users == true       
