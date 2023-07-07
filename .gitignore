@@ -1,7 +1,7 @@
 manifest.zip
 setup_info.yml
 debug.yml
-extra_vars.yml
+extra_vars*
 aap.tar.gz
 .DS_Store
 ansible.cfg
