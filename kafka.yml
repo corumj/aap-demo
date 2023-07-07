@@ -10,7 +10,7 @@
         state: latest 
       become: yes 
 
-    - name: Start container 
+    - name: Start kafka container 
       containers.podman.podman_container:
         name: kafka-server 
         image: docker.io/bitnami/kafka:3.5
@@ -23,3 +23,10 @@
           KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://0.0.0.0:9094
           KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://{{ inventory_hostname }}:9094
           KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT   
+
+    - name: Start container 
+      containers.podman.podman_container:
+        name: kafka-server-util 
+        image: docker.io/bitnami/kafka:3.5
+        state: started 
+        command: kafka-topics.sh --create --topic ansible --bootstrap-server {{ inventory_hostname }}:9094
