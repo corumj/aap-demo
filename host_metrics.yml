@@ -16,7 +16,7 @@
 # It will also give you a count of hosts that have had jobs run against them. 
 # This is based on the 'last_job' parameter - if last_job is null, no automation 
 # has been run against that node, if it has a date, then a job template ran
-# to configure that node.  
+# to configure that node.  It is expected that localhost is in both categories.
 
 - name: Find hosts in inventory with no jobs 
   hosts: localhost 
