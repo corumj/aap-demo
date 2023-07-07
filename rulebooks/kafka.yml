@@ -6,7 +6,7 @@
 
   sources:
     - ansible.eda.kafka:
-        host: ec2-3-142-121-238.us-east-2.compute.amazonaws.com
+        host: ec2-13-58-4-228.us-east-2.compute.amazonaws.com
         port: 9094
         topic: ansible 
         check_hostname: False
