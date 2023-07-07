@@ -1,0 +1,27 @@
+---
+- name: Listen for events on a webhook
+  hosts: all
+
+  ## Define our source for events
+
+  sources:
+    - ansible.eda.kafka:
+        host: ec2-3-142-121-238.us-east-2.compute.amazonaws.com
+        port: 9094
+        topic: ansible 
+
+  ## Define the conditions we are looking for
+
+  rules:
+    - name: Say Hello
+      condition: event.payload.message == "Ansible is super cool"
+
+  ## Define the action we should take should the condition be met
+
+      action:
+        run_job_template:
+          name: EDA - Webhook Response
+          organization: Default 
+          # job_args:
+          #   extra_vars:
+          #     ansible_eda: "{{ event }}"
