@@ -34,9 +34,6 @@
     status_code: 200 
   register: eda_controller_tokens 
 
-- debug:
-    var: eda_token
-
 - name: Create new Controller token in EDA Controller 
   ansible.builtin.uri:
     url: https://eda.{{ top_level_domain }}/api/eda/v1/users/me/awx-tokens/
