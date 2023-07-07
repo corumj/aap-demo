@@ -21,6 +21,14 @@
     status_code: 200 
   register: eda_roles 
 
+- name: Check if {{ item.username }} exists  in EDA Controller 
+  ansible.builtin.uri:
+    url: https://eda.{{ top_level_domain }}/api/eda/v1/users/
+    method: GET 
+    user: admin 
+    password: "{{ admin_password }}"
+    force_basic_auth: true 
+  register: existing_users
 
 - name: Add {{ item.username }} to EDA Controller 
   vars:
@@ -37,3 +45,4 @@
       password: "{{ item.password }}"
       roles: "{{ eda_roles | json_query(query) }}"
     status_code: 201 
+  when: existing_users | regex_findall(item.username) | length == 0
