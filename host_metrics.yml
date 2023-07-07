@@ -1,0 +1,54 @@
+---
+#####
+# Use this playbook to get a quick count and list of items in inventory
+# that have had no jobs run against them. 
+# You will need to create an extra_vars.yml file with the following content: 
+###
+# --- 
+# xtra_controller_hostname: controller.example.com 
+# xtra_controller_username: user1 
+# xtra_controller_password: pass123  #notsecret
+###
+# Run the playbook passing in the extra_vars file like this: 
+# ansible-playbook -e @extra_vars.yml host_metrics.yml 
+# 
+# This should generate a list of hosts with no jobs run against them in Controller
+# It will also give you a count of hosts that have had jobs run against them. 
+# This is based on the 'last_job' parameter - if last_job is null, no automation 
+# has been run against that node, if it has a date, then a job template ran
+# to configure that node.  
+
+- name: Find hosts in inventory with no jobs 
+  hosts: localhost 
+  connection: local 
+
+  vars:
+    controller_hostname: "{{ xtra_controller_hostname }}"
+    controller_username: "{{ xtra_controller_username }}"
+    controller_password: "{{ xtra_controller_password }}"
+
+  tasks:
+    - name: Get list of hosts from Controller 
+      ansible.builtin.uri:
+        url: https://{{ controller_hostname }}/api/v2/hosts
+        method: GET 
+        user: "{{ controller_username }}"
+        password: "{{ controller_password }}"
+        force_basic_auth: true 
+        status_code: 200
+        return_content: true
+        validate_certs: false
+      register: host_list 
+
+    - name: Print host list 
+      ansible.builtin.debug:
+        var: host_list 
+        verbosity: 2 
+
+    - name: Filter test
+      ansible.builtin.debug:
+        msg: 
+          - "Hosts with no jobs run against them ({{ host_list.json | json_query('results[?last_job==None].name') | length }}): "
+          - "{{ host_list.json | json_query('results[?last_job==None].name') }}"
+          - "Hosts with jobs run against them ({{ host_list.json | json_query('results[?last_job!=None].name') | length }}): "
+          - "{{ host_list.json | json_query('results[?last_job!=None].name') }}"
