@@ -6,8 +6,8 @@
 
   sources:
     - ansible.eda.kafka:
-        host: ec2-18-217-148-42.us-east-2.compute.amazonaws.com
-        port: 9092
+        host: https://my-cluster-kafka-tls-0-kafka.apps.cluster-9btfn.9btfn.sandbox266.opentlc.com
+        port: 443
         topic: ansible 
         check_hostname: False
 
