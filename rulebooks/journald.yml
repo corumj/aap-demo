@@ -13,6 +13,8 @@
   rules:
     - name: Say Hello
       condition: 1==1
+      throttle:
+        once_within: 1 minute
 
   ## Define the action we should take should the condition be met
 
