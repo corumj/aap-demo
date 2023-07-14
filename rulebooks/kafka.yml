@@ -6,9 +6,9 @@
 
   sources:
     - ansible.eda.kafka:
-        host: https://my-cluster-kafka-tls-0-kafka.apps.cluster-9btfn.9btfn.sandbox266.opentlc.com
-        # port: 9093
-        topic: ansible 
+        host: my-cluster-kafka-tls-0-kafka.apps.cluster-w8qsl.w8qsl.sandbox1817.opentlc.com
+        port: 9093
+        topic: ansible-topic 
         check_hostname: False
 
   ## Define the conditions we are looking for
