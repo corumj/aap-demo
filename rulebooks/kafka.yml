@@ -6,7 +6,7 @@
 
   sources:
     - ansible.eda.kafka:
-        host: my-cluster-kafka-tls-0-kafka.apps.cluster-w8qsl.w8qsl.sandbox1817.opentlc.com
+        host: my-cluster-kafka-tls-bootstrap-kafka.apps.cluster-w8qsl.w8qsl.sandbox1817.opentlc.com
         port: 9093
         topic: ansible-topic 
         check_hostname: False
