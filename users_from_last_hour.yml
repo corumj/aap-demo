@@ -26,7 +26,7 @@
       when: 
         - "{{ users_response.json.results[user_index].last_login != None }}" # just in case the user has never logged in
         - "{{ ((ansible_date_time.iso8601_micro | to_datetime('%Y-%m-%dT%H:%M:%S.%f%z') ) - (users_response.json.results[user_index].last_login | to_datetime(format='%Y-%m-%dT%H:%M:%S.%f%z'))).total_seconds() < 3600 }}"
-            ## Has to be an easier way but this takes the current datetime string from Ansible, converits it to a date time, and the subtracts the user's last login time and converts the timedelta to total_seconds, then checks if it's more than 24 hours worth of seconds old
+            ## Has to be an easier way but this takes the current datetime string from Ansible, converts it to a date time, and the subtracts the user's last login time and converts the timedelta to total_seconds, then checks if it's more than 1 hour worth of seconds old
       loop: "{{ users_response.json.results }}"
       loop_control:
         index_var: user_index  # needed this to hopefully better document the crazy date time shenanigans above but everything after [user_index] above could be replaced with "item"
