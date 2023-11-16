@@ -1,5 +1,0 @@
----
-controller_inventories:
-  - name: AWS
-    description: Load inventory from AWS
-    organization: Default

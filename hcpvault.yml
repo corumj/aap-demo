@@ -1,9 +1,0 @@
----
-- name: Test out using HashiCorp Vault 
-  hosts: localhost
-  connection: local 
-
-  tasks: 
-    - name: Print out secret 
-      debug: 
-        msg: "{{ ansible_password }}"

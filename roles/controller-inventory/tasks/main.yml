@@ -1,3 +1,0 @@
----
-- name: Create AWS Inventory
-  include_tasks: aws.yml

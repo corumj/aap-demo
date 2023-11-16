@@ -1,0 +1,5 @@
+---
+- name: Demo lightspeed
+  hosts: all 
+
+  tasks: 
