@@ -11,4 +11,9 @@
     - name: set stat
       ansible.builtin.set_stats:
         data:
-          packages_installed: "{{ ansible_facts.packages | length }}"
+          packages_installed_stat: "{{ ansible_facts.packages | length }}"
+
+    - name: set fact 
+      ansible.builtin.set_fact:
+        packages_installed_fact: "{{ ansible_facts.packages | length }}"
+        cacheable: yes

@@ -3,6 +3,14 @@
   hosts: all 
 
   tasks: 
-    - name: Print stat from previuos workflow node 
+    - name: Print stat from previous workflow node 
       debug: 
-        msg: "There are {{ packages_installed }} packages installed on {{ inventory_hostname }}"
+        msg: "Stat: There are {{ packages_installed_stat }} packages installed on {{ inventory_hostname }}"
+
+    - name: Print cached fact from ansible_facts 
+      debug:
+        msg: "Fact: There are {{ ansible_facts.packages_installed_fact }} packages installed on {{ inventory_hostname }}"
+
+    - name: Print cached hostvar 
+      debug:
+        msg: "Hostvar: There are {{ hostvars[inventory_hostname].packages_installed_fact }} packages installed on {{ inventory_hostname }}"
