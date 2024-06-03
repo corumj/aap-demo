@@ -1,0 +1,14 @@
+--- 
+- name: Set a stat to retrieve in the next workflow playbook
+  hosts: all 
+
+  tasks: 
+
+    - name: Gather the package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: set stat
+      ansible.builtin.set_stat:
+        data:
+          packages_installed: "{{ ansible_facts.packages | length }}"

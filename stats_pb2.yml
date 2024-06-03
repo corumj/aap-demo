@@ -1,0 +1,8 @@
+--- 
+- name: Print a stat from previous workflow node
+  hosts: all 
+
+  tasks: 
+    - name: Print stat from previuos workflow node 
+      debug: 
+        msg: "There are {{ packages_installed }} packages installed on {{ inventory_hostname }}"
