@@ -13,7 +13,8 @@
       debug:
         msg: "Fact: There are {{ ansible_facts.packages_installed_fact }} packages installed on {{ inventory_hostname }}"
       when: ansible_facts.packages_installed_fact is defined 
-      
+
     - name: Print cached hostvar 
       debug:
         msg: "Hostvar: There are {{ hostvars[inventory_hostname].packages_installed_fact }} packages installed on {{ inventory_hostname }}"
+      when: hostvars[inventory_hostname].packages_installed_fact is defined
