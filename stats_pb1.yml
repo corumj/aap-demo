@@ -9,6 +9,6 @@
         manager: auto
 
     - name: set stat
-      ansible.builtin.set_stat:
+      ansible.builtin.set_stats:
         data:
           packages_installed: "{{ ansible_facts.packages | length }}"
