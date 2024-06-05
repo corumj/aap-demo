@@ -1,0 +1,46 @@
+---
+- name: Simulate failure and send email 
+  hosts: localhost 
+
+  tasks:
+    - name: Try something that will fail
+      block:
+        - name: Install a package that doesn't exist
+          ansible.builtin.package:
+            name: apache2345 
+            state: present 
+
+      rescue: 
+        - name: print task and result 
+          debug:
+            msg:
+              - "{{ lookup('template', 'email_body.j2') }}"
+          
+        - name: Save email 
+          set_fact:
+            email_body: "{{ lookup('template', 'email_body.j2') }}"
+      always:
+      - name: debug 
+        debug: 
+          var: email_body
+
+      # - name: Send e-mail to a bunch of users, attaching files
+      #   community.general.mail:
+      #     host: 127.0.0.1
+      #     port: 2025
+      #     subject: Ansible-report
+      #     body: "{{ lookup('template', 'email_body.j2') }}"
+      #     from: jane@example.net (Jane Jolie)
+      #     to:
+      #       - John Doe <j.d@example.org>
+      #       - Suzie Something <sue@example.com>
+      #     cc: Charlie Root <root@localhost>
+      #     attach:
+      #     - /etc/group
+      #     - /tmp/avatar2.png
+      #     headers:
+      #     - Reply-To=john@example.com
+      #   delegate_to: localhost
+      #   run_once: true
+
+
