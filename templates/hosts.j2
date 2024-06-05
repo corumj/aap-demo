@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+# File last updated from template at {{ ansible_date_time.iso8601 }}
+# commit: {{ lookup('ansible.builtin.pipe', 'git rev-parse --short HEAD') }}
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+{% for host in play_hosts %}
+{% set short_name = host.split('.') %}
+{{ hostvars[host]['ansible_facts']['default_ipv4']['address'] }} {{ host }} {{ short_name[0] }}
+{% endfor %}

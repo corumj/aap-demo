@@ -1,0 +1,12 @@
+--- 
+- name: Create /etc/hosts file from inventory
+  hosts: all 
+
+  vars:
+    dest_path: "~/hosts"
+
+  tasks:
+    - name: Create hosts file with jinja2
+      ansible.builtin.template:
+        src: "hosts.j2"
+        dest: "{{ dest_path }}" 
