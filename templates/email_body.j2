@@ -1,0 +1,7 @@
+{% for host in play_hosts %}
+<tr>
+  <td>{{ hostvars[host].inventory_hostname }}</td>
+  <td>{{ ansible_failed_task.name }}</td>
+  <td>{{ ansible_failed_result.msg }}</td>
+</tr>
+{% endfor %}
