@@ -5,10 +5,17 @@
   tasks:
     - name: Try something that will fail
       block:
+        - name: force some change 
+          debug: 
+            msg: "Make a simulated change to force handler"
+          changed_when: true 
+          notify: changes 
+
         - name: Install a package that doesn't exist
           ansible.builtin.package:
             name: apache2345 
             state: present 
+          notify: changes
 
       rescue: 
         # Construct the email body here, where you have access to 
@@ -47,3 +54,27 @@
       #   run_once: true
 
 
+  handlers:
+    - name: changes
+      debug: 
+        msg: "Somebody made a manual change, Ansible will be avenged!!"
+
+      # - name: email on changes
+      #   community.general.mail:
+      #     host: "{{ smtp_server }}"
+      #     port: 25
+      #     subject: "{{ email_subject }}"
+      #     body: "{{ lookup('template', 'email_body.html.j2') | default("please check your ansible logs") }}"
+      #     subtype: html
+      #     from: jane@example.net (Jane Jolie)
+      #     to:
+      #       - John Doe <j.d@example.org>
+      #       - Suzie Something <sue@example.com>
+      #     cc: Charlie Root <root@localhost>
+      #     attach:
+      #     - /etc/group
+      #     - /tmp/avatar2.png
+      #     headers:
+      #     - Reply-To=john@example.com
+      #   delegate_to: localhost
+      #   run_once: true
