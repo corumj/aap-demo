@@ -9,3 +9,5 @@ aap/*
 generated_files/*
 *.tar.gz 
 *.py
+hosts
+inventory
