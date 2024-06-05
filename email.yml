@@ -14,11 +14,11 @@
         - name: print task and result 
           debug:
             msg:
-              - "{{ lookup('template', 'email_body.j2') }}"
+              - "{{ lookup('template', 'email_body.html.j2') }}"
           
         - name: Save email 
           set_fact:
-            email_body: "{{ lookup('template', 'email_body.j2') }}"
+            email_body: "{{ lookup('template', 'email_body.html.j2') }}"
       always:
       - name: debug 
         debug: 
@@ -26,10 +26,11 @@
 
       # - name: Send e-mail to a bunch of users, attaching files
       #   community.general.mail:
-      #     host: 127.0.0.1
-      #     port: 2025
-      #     subject: Ansible-report
-      #     body: "{{ lookup('template', 'email_body.j2') }}"
+      #     host: "{{ smtp_server }}"
+      #     port: 25
+      #     subject: "{{ email_subject }}"
+      #     body: "{{ lookup('template', 'email_body.html.j2') }}"
+      #     subtype: html
       #     from: jane@example.net (Jane Jolie)
       #     to:
       #       - John Doe <j.d@example.org>
