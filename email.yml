@@ -11,25 +11,27 @@
             state: present 
 
       rescue: 
-        - name: print task and result 
-          debug:
-            msg:
-              - "{{ lookup('template', 'email_body.html.j2') }}"
-          
-        - name: Save email 
+        # Construct the email body here, where you have access to 
+        # ansible_failed_task and ansible_failed_result
+        - name: Save email body
           set_fact:
             email_body: "{{ lookup('template', 'email_body.html.j2') }}"
+            email_subject: "{{ inventory_hostname }} - Error on task: {{ ansible_failed_task.name }}"
       always:
+        # send the email here, with a default message in case
+        # the rescue block also has a failure
       - name: debug 
         debug: 
-          var: email_body
+          msg:
+            - "{{ email_subject }}"
+            - "{{ email_body }}"
 
       # - name: Send e-mail to a bunch of users, attaching files
       #   community.general.mail:
       #     host: "{{ smtp_server }}"
       #     port: 25
       #     subject: "{{ email_subject }}"
-      #     body: "{{ lookup('template', 'email_body.html.j2') }}"
+      #     body: "{{ lookup('template', 'email_body.html.j2') | default("please check your ansible logs") }}"
       #     subtype: html
       #     from: jane@example.net (Jane Jolie)
       #     to:
