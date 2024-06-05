@@ -10,7 +10,8 @@
       ansible.builtin.package:
         name: git 
         state: present 
-        
+      become: yes
+
     - name: Create hosts file with jinja2
       ansible.builtin.template:
         src: "hosts.j2"
