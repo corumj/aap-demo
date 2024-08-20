@@ -9,4 +9,8 @@
         tech: 'biscuit'
         cacheable: true
 
+    - name: print fact 
+      debug:
+        var: test_vbname
+
     
