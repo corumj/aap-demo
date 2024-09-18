@@ -3,4 +3,4 @@
 
   tasks:
     - debug:
-        msg: "{{ Hello World }}"
+        msg: "Hello World"
