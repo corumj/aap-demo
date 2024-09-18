@@ -1,0 +1,4 @@
+plugin: netbox.netbox.nb_inventory
+api_endpoint: https://demo.netbox.dev
+validate_certs: true
+config_context: true

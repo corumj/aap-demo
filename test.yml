@@ -1,0 +1,9 @@
+- name: Run Centrify adjoin with password (on remote server)
+  hosts: localhost
+  vars:
+    domain_password: "B0b1\\$d\\@B0mb"
+    sh_cmd: "adjoin -d -u 'Voice-EIandV_join' -p '{{ domain_password }}' -z Voice-EIandV -c 'ou=Voice-EIandV_OU,ou=servers,dc=charterlab,dc=com' charterlab.com"
+
+  tasks:
+    - debug:
+        msg: "{{ sh_cmd }}"
