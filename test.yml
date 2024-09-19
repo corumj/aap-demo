@@ -3,4 +3,4 @@
 
   tasks:
     - debug:
-        msg: "{{ extra_vars }}"
+        msg: "{{ job_configs }}"
