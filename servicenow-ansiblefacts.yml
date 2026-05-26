@@ -12,7 +12,7 @@
         assigned_to: admin
         environment: dev
         category: Virtual Machine
-      instance: 
-        host: https://{{ servicenow_instance | default(SN_INSTANCE) }}.service-now.com
-        username: "{{ servicenow_username | default(SN_USERNAME) }}"
-        password: "{{ servicenow_password | default(SN_PASSWORD) }}"
+        instance: 
+          host: https://{{ servicenow_instance | default(SN_INSTANCE) }}.service-now.com
+          username: "{{ servicenow_username | default(SN_USERNAME) }}"
+          password: "{{ servicenow_password | default(SN_PASSWORD) }}"
