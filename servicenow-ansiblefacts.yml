@@ -5,7 +5,7 @@
 
   tasks: 
     - debug: 
-        msg: "{{ hostvars[groups['demo']] }}"
+        msg: "{{ hostvars[ansible_host] }}"
 
     # - name: Update CMDB with data from Ansible Facts  
     #   servicenow.itsm.configuration_item_batch: 
