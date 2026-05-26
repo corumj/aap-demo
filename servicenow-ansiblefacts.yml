@@ -10,7 +10,7 @@
         serial_number: ansible_machine_id
         sys_class_name: cmdb_ci_server
         assigned_to: admin
-        environment: dev
+        environment: production
         category: Hardware
         instance: 
           host: https://{{ SN_INSTANCE }}.service-now.com
