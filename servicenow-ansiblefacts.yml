@@ -14,5 +14,5 @@
         category: Hardware
         instance: 
           host: https://{{ SN_INSTANCE }}.service-now.com
-          username: "{{ SN_PASSWORD }}"
-          password: "{{ SN_USERNAME }}"
+          username: "{{ SN_USERNAME }}"
+          password: "{{ SN_PASSWORD }}"
