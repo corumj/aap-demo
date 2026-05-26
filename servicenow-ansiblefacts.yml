@@ -1,11 +1,11 @@
 ---
 - name: Use cached facts to update ServiceNow CMDB 
-  hosts: localhost 
+  hosts: all 
   gather_facts: no
 
   tasks: 
     - debug: 
-        msg: "{{ hostvars }}"
+        msg: "{{ hostvars[groups['demo']] }}"
 
     # - name: Update CMDB with data from Ansible Facts  
     #   servicenow.itsm.configuration_item_batch: 
