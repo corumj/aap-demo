@@ -13,6 +13,6 @@
         environment: dev
         category: Hardware
         instance: 
-          host: https://{{ servicenow_instance | default(SN_INSTANCE) }}.service-now.com
-          username: "{{ servicenow_username | default(SN_USERNAME) }}"
-          password: "{{ servicenow_password | default(SN_PASSWORD) }}"
+          host: https://{{ SN_INSTANCE }}.service-now.com
+          username: "{{ SN_PASSWORD }}"
+          password: "{{ SN_USERNAME }}"
