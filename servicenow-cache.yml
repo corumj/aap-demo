@@ -1,13 +1,9 @@
 ---
 - name: Caching Facts Update ServiceNow CMDB from Ansible Facts 
   hosts: all 
-  gather_facts: yes
-  collections:  
-    - ansible.builtin 
+  gather_facts: true
 
   tasks: 
     - name: Running to cache facts 
-      debug:
+      ansible.builtin.debug:
         msg: "Caching Facts, please wait until complete."
-      run_once: True 
-      delegate_to: locahost 
