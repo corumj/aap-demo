@@ -15,4 +15,4 @@
                         engine_mount_point='kv', 
                         secret='ansible/homelab',
                         role_id='{{ hrole_id }}',
-                        secret_id='{{ hsecret_id }}')[0].data.username }}"
+                        secret_id='{{ hsecret_id }}') }}"
