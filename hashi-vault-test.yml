@@ -13,6 +13,4 @@
                         auth_method='approle', 
                         url='http://vault.aj.peripatetic.us:8200', 
                         engine_mount_point='kv', 
-                        secret='ansible/homelab',
-                        role_id='{{ hrole_id }}',
-                        secret_id='{{ hsecret_id }}') }}"
+                        secret='ansible/homelab') }}"
