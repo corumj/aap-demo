@@ -10,4 +10,4 @@
     - name: Return latest KV2 secret from path
       ansible.builtin.debug:
         msg: "{{ lookup('hashicorp.vault.kv2_secret_get', auth_method='approle', engine_mount_point='kv', url='http://vault.aj.peripatetic.us:8200',
-                        secret='kv/ansible/homelab:username') }}"
+                        secret='ansible/homelab:username') }}"
