@@ -6,8 +6,8 @@
   tasks:
     - debug: 
         var: ansible_env 
-        
+
     - name: Return latest KV2 secret from path
       ansible.builtin.debug:
-        msg: "{{ lookup('hashicorp.vault.kv2_secret_get', auth_method='approle', url='http://vault.aj.peripatetic.us:8200',
+        msg: "{{ lookup('hashicorp.vault.kv2_secret_get', auth_method='approle', engine_mount_point='kv', url='http://vault.aj.peripatetic.us:8200',
                         secret='kv/ansible/homelab:username') }}"
