@@ -1,9 +1,10 @@
 --- 
 - name: Test out lookup credential for hashicorp vault 
   hosts: localhost 
+  gather_facts: false 
 
   tasks:
     - name: Return latest KV2 secret from path
       ansible.builtin.debug:
-        msg: "{{ lookup('hashicorp.vault.kv2_secret_get',
+        msg: "{{ lookup('hashicorp.vault.kv2_secret_get', auth_method='approle',
                         secret='kv/ansible/homelab:username') }}"
